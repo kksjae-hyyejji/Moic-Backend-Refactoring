@@ -1,7 +1,5 @@
 package com.finp.moic.shop.model.repository;
 
-import com.finp.moic.card.model.entity.QCardBenefit;
-import com.finp.moic.card.model.entity.QUserCard;
 import com.finp.moic.giftCard.model.entity.QGiftcard;
 import com.finp.moic.shop.model.dto.response.QShopDetailResponseDTO;
 import com.finp.moic.shop.model.dto.response.ShopDetailResponseDTO;
