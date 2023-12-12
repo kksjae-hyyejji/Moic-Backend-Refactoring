@@ -1,7 +1,7 @@
 package com.finp.moic.shop.model.service;
 
+import com.finp.moic.giftCard.application.port.out.GiftcardPersistencePort;
 import com.finp.moic.card.application.port.out.CardBenefitPersistencePort;
-import com.finp.moic.giftCard.model.repository.jpa.GiftcardRepository;
 import com.finp.moic.shop.model.dto.request.CategoryRequestDTO;
 import com.finp.moic.shop.model.dto.request.ShopRecommandRequestDTO;
 import com.finp.moic.shop.model.dto.response.*;
@@ -22,19 +22,21 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService{
 
     private final ShopRepository shopRepository;
+
+    private final GiftcardPersistencePort giftcardPersistencePort;
     private final CardBenefitPersistencePort cardBenefitPersistencePort;
-    private final GiftcardRepository giftcardRepository;
+
     private final UserBookmarkRepository userBookmarkRepository;
     private final ShopLocationRedisService shopLocationRedisService;
     private final CacheRedisService cacheRedisService;
 
     @Autowired
     public ShopServiceImpl(ShopRepository shopRepository, CardBenefitPersistencePort cardBenefitPersistencePort,
-                           GiftcardRepository giftcardRepository, UserBookmarkRepository userBookmarkRepository,
+                           GiftcardPersistencePort giftcardPersistencePort, UserBookmarkRepository userBookmarkRepository,
                            ShopLocationRedisService shopLocationRedisService, CacheRedisService cacheRedisService) {
         this.shopRepository = shopRepository;
         this.cardBenefitPersistencePort = cardBenefitPersistencePort;
-        this.giftcardRepository = giftcardRepository;
+        this.giftcardPersistencePort = giftcardPersistencePort;
         this.userBookmarkRepository = userBookmarkRepository;
         this.shopLocationRedisService = shopLocationRedisService;
         this.cacheRedisService = cacheRedisService;
@@ -52,8 +54,8 @@ public class ShopServiceImpl implements ShopService{
             dto.setBookmark(true);
         }
 
+        List<GiftResponseDTO> giftcardDTOList= giftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
         List<BenefitResponseDTO> benefitDTOList= cardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-        List<GiftResponseDTO> giftcardDTOList=giftcardRepository.findAllByUserIdAndShopName(userId,shopName);
 
         /** DTO Builder **/
         dto.setBenefits(benefitDTOList);
@@ -72,7 +74,7 @@ public class ShopServiceImpl implements ShopService{
         }
 
         if(!cacheRedisService.existUserGiftShopKey(userId)){
-            List<String> giftShopNameList=giftcardRepository.findAllShopNameByUserId(userId);
+            List<String> giftShopNameList= giftcardPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserGiftShopList(giftShopNameList,userId);
         }
 
@@ -106,7 +108,7 @@ public class ShopServiceImpl implements ShopService{
         }
 
         if(!cacheRedisService.existUserGiftShopKey(userId)){
-            List<String> giftShopNameList=giftcardRepository.findAllShopNameByUserId(userId);
+            List<String> giftShopNameList= giftcardPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserGiftShopList(giftShopNameList,userId);
         }
 
@@ -163,8 +165,8 @@ public class ShopServiceImpl implements ShopService{
             }
 
             /** RDB Access **/
+            List<GiftResponseDTO> giftcardDTOList= giftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
             List<BenefitResponseDTO> benefitDTOList= cardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-            List<GiftResponseDTO> giftcardDTOList=giftcardRepository.findAllByUserIdAndShopName(userId,shopName);
 
             /** DTO Builder **/
             redisDTO.setBenefits(benefitDTOList);
