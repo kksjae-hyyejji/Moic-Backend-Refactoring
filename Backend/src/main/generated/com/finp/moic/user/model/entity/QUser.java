@@ -32,7 +32,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath gender = createString("gender");
 
-    public final ListPath<com.finp.moic.giftCard.model.entity.Giftcard, com.finp.moic.giftCard.model.entity.QGiftcard> giftCards = this.<com.finp.moic.giftCard.model.entity.Giftcard, com.finp.moic.giftCard.model.entity.QGiftcard>createList("giftCards", com.finp.moic.giftCard.model.entity.Giftcard.class, com.finp.moic.giftCard.model.entity.QGiftcard.class, PathInits.DIRECT2);
+    public final ListPath<com.finp.moic.giftCard.domain.Giftcard, com.finp.moic.giftCard.domain.QGiftcard> giftCards = this.<com.finp.moic.giftCard.domain.Giftcard, com.finp.moic.giftCard.domain.QGiftcard>createList("giftCards", com.finp.moic.giftCard.domain.Giftcard.class, com.finp.moic.giftCard.domain.QGiftcard.class, PathInits.DIRECT2);
 
     public final StringPath id = createString("id");
 
