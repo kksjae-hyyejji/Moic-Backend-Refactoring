@@ -48,7 +48,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final ListPath<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark> userBookMarks = this.<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark>createList("userBookMarks", com.finp.moic.userBookmark.model.entity.UserBookmark.class, com.finp.moic.userBookmark.model.entity.QUserBookmark.class, PathInits.DIRECT2);
 
-    public final ListPath<com.finp.moic.card.model.entity.UserCard, com.finp.moic.card.model.entity.QUserCard> userCards = this.<com.finp.moic.card.model.entity.UserCard, com.finp.moic.card.model.entity.QUserCard>createList("userCards", com.finp.moic.card.model.entity.UserCard.class, com.finp.moic.card.model.entity.QUserCard.class, PathInits.DIRECT2);
+    public final ListPath<com.finp.moic.card.domain.UserCard, com.finp.moic.card.domain.QUserCard> userCards = this.<com.finp.moic.card.domain.UserCard, com.finp.moic.card.domain.QUserCard>createList("userCards", com.finp.moic.card.domain.UserCard.class, com.finp.moic.card.domain.QUserCard.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> userSeq = createNumber("userSeq", Long.class);
 

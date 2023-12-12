@@ -1,7 +1,5 @@
 package com.finp.moic.userBookmark.model.service;
 
-import com.finp.moic.card.model.entity.Card;
-import com.finp.moic.card.model.entity.UserCard;
 import com.finp.moic.shop.model.entity.Shop;
 import com.finp.moic.shop.model.repository.ShopRepository;
 import com.finp.moic.user.model.entity.User;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserBookmarkServiceImpl implements UserBookmarkService{

@@ -2,7 +2,7 @@ package com.finp.moic.user.model.entity;
 
 import com.finp.moic.giftCard.domain.Giftcard;
 import com.finp.moic.userBookmark.model.entity.UserBookmark;
-import com.finp.moic.card.model.entity.UserCard;
+import com.finp.moic.card.domain.UserCard;
 import com.finp.moic.util.entity.Base;
 import jakarta.persistence.*;
 import lombok.*;
