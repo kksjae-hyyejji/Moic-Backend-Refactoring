@@ -1,14 +1,10 @@
 package com.finp.moic.util.database.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finp.moic.card.model.dto.response.CardMineResponseDTO;
-import com.finp.moic.card.model.entity.UserCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
