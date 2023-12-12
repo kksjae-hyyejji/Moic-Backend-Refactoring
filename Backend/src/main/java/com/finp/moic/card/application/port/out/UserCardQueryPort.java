@@ -1,4 +1,4 @@
-package com.finp.moic.card.adapter.out.persistence;
+package com.finp.moic.card.application.port.out;
 
 import com.finp.moic.card.application.response.CardMineServiceResponse;
 

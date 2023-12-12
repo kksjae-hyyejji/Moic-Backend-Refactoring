@@ -1,5 +1,6 @@
 package com.finp.moic.card.adapter.out.persistence;
 
+import com.finp.moic.card.application.port.out.UserCardQueryPort;
 import com.finp.moic.card.application.response.CardMineServiceResponse;
 import com.finp.moic.card.application.response.QCardMineServiceResponse;
 import com.finp.moic.card.domain.QUserCard;
