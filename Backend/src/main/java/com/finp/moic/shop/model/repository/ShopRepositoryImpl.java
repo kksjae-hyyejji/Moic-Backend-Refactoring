@@ -1,19 +1,14 @@
 package com.finp.moic.shop.model.repository;
 
-import com.finp.moic.card.model.entity.QCardBenefit;
-import com.finp.moic.card.model.entity.QUserCard;
 import com.finp.moic.shop.model.dto.response.QShopDetailResponseDTO;
 import com.finp.moic.shop.model.dto.response.ShopDetailResponseDTO;
 import com.finp.moic.shop.model.entity.QShop;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class ShopRepositoryImpl implements ShopRepositoryCustom{
