@@ -1,28 +1,22 @@
 package com.finp.moic.giftCard.adapter.out.persistence;
 
-import com.finp.moic.giftCard.application.port.out.GiftcardBrandPersistenceQueryPort;
 import com.finp.moic.giftCard.application.response.GiftcardBrandServiceResponse;
 import com.finp.moic.giftCard.application.response.QGiftcardBrandServiceResponse;
 import com.finp.moic.giftCard.domain.QGiftcardBrand;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class GifrcardBrandPersistencePortImpl implements GiftcardBrandPersistenceQueryPort {
+@Repository
+@RequiredArgsConstructor
+public class GiftcardBrandQuerydslRepository {
 
-    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
-    public GifrcardBrandPersistencePortImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
-
-    @Override
     public GiftcardBrandServiceResponse findByName(String shopName) {
-        QGiftcardBrand giftcardBrand=QGiftcardBrand.giftcardBrand;
+        QGiftcardBrand giftcardBrand = QGiftcardBrand.giftcardBrand;
 
-        return queryFactory
+        return jpaQueryFactory
                 .select(
                         new QGiftcardBrandServiceResponse(
                                 giftcardBrand.mainCategory,

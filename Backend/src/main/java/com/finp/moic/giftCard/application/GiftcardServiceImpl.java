@@ -1,11 +1,13 @@
 package com.finp.moic.giftCard.application;
 
 import com.finp.moic.giftCard.application.port.in.GiftcardUseCase;
+import com.finp.moic.giftCard.application.port.out.CommandGiftcardBrandPersistencePort;
+import com.finp.moic.giftCard.application.port.out.QueryGiftcardBrandPersistencePort;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.Giftcard;
 import com.finp.moic.giftCard.application.response.GiftcardBrandServiceResponse;
-import com.finp.moic.giftCard.application.port.out.GiftcardBrandPersistencePort;
-import com.finp.moic.giftCard.application.port.out.GiftcardPersistencePort;
+import com.finp.moic.giftCard.application.port.out.CommandGiftcardPersistencePort;
+import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.user.model.repository.UserRepository;
 import com.finp.moic.util.exception.list.DeniedException;
@@ -14,7 +16,7 @@ import com.finp.moic.util.service.NaverOcrService;
 import com.finp.moic.util.database.service.S3Service;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -25,26 +27,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GiftcardServiceImpl implements GiftcardUseCase {
 
     private final S3Service s3Service;
     private final NaverOcrService naverOcrService;
     private final ChatGptService chatGptService;
     private final UserRepository userRepository;
-    private final GiftcardPersistencePort giftcardPersistencePort;
-    private final GiftcardBrandPersistencePort giftcardBrandPersistencePort;
-
-    @Autowired
-    public GiftcardServiceImpl(S3Service s3Service, NaverOcrService naverOcrService,
-                               ChatGptService chatGptService, UserRepository userRepository, GiftcardPersistencePort giftcardPersistencePort,
-                               GiftcardBrandPersistencePort giftcardBrandPersistencePort) {
-        this.s3Service = s3Service;
-        this.naverOcrService = naverOcrService;
-        this.chatGptService = chatGptService;
-        this.userRepository = userRepository;
-        this.giftcardPersistencePort = giftcardPersistencePort;
-        this.giftcardBrandPersistencePort = giftcardBrandPersistencePort;
-    }
+    private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
+    private final QueryGiftcardBrandPersistencePort queryGiftcardBrandPersistencePort;
+    private final CommandGiftcardPersistencePort commandGiftcardPersistencePort;
+    private final CommandGiftcardBrandPersistencePort commandGiftcardBrandPersistencePort;
 
     @Override
     @CacheEvict(value="giftcardList", key="#id")
@@ -65,7 +58,7 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
                 .orElseThrow(()-> new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
 
-        GiftcardBrandServiceResponse categoryDTO= giftcardBrandPersistencePort.findByName(shopName);
+        GiftcardBrandServiceResponse categoryDTO= queryGiftcardBrandPersistencePort.findByName(shopName);
         if(categoryDTO==null){
             throw new DeniedException(ExceptionEnum.GIFTCATD_REGIST_ERROR);
         }
@@ -79,7 +72,7 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
                 .dueDate(localDate)
                 .build();
 
-        giftcardPersistencePort.save(giftcard);
+        commandGiftcardPersistencePort.save(giftcard);
 
         /*** Redis Access ***/
         /* 혜지 : 값 업데이트가 되었으므로 캐싱 데이터 삭제 */
@@ -103,10 +96,10 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
     @CacheEvict(value="giftcardList", key="#id")
     public void delete(String id, String imageUrl) {
 
-        Giftcard giftcard = giftcardPersistencePort.findByImageUrl(imageUrl)
+        Giftcard giftcard = queryGiftcardPersistencePort.findByImageUrl(imageUrl)
                 .orElseThrow(() -> new NotFoundException(ExceptionEnum.GIFTCARD_NOT_FOUND));
         s3Service.deleteGiftcard(imageUrl);
-        giftcardPersistencePort.delete(giftcard);
+        commandGiftcardPersistencePort.delete(giftcard);
 
     }
 
@@ -114,6 +107,6 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
     @Cacheable(value="giftcardList", key="#id")
     public List<GiftcardListServiceResponse> mygifts(String id) {
 
-        return giftcardPersistencePort.findAllByUserId(id);
+        return queryGiftcardPersistencePort.findAllByUserId(id);
     }
 }

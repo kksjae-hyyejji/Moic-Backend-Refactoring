@@ -1,32 +1,26 @@
 package com.finp.moic.giftCard.adapter.out.persistence;
 
-import com.finp.moic.giftCard.application.port.out.GiftcardPresistenceQueryPort;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.QGiftcard;
 import com.finp.moic.giftCard.application.response.QGiftcardListServiceResponse;
 import com.finp.moic.shop.model.dto.response.GiftResponseDTO;
 import com.finp.moic.shop.model.dto.response.QGiftResponseDTO;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
-public class GiftcardPersistencePortImpl implements GiftcardPresistenceQueryPort {
+@Repository
+@RequiredArgsConstructor
+public class GiftcardQuerydslRepository {
 
-    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
-    public GiftcardPersistencePortImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
-
-    @Override
     public List<GiftResponseDTO> findAllByUserIdAndShopName(String userId, String shopName) {
         QGiftcard giftcard=QGiftcard.giftcard;
 
-        return queryFactory
+        return jpaQueryFactory
                 .select(
                         new QGiftResponseDTO(
                                 giftcard.imageUrl,
@@ -41,11 +35,10 @@ public class GiftcardPersistencePortImpl implements GiftcardPresistenceQueryPort
                 .fetch();
     }
 
-    @Override
     public List<String> findAllShopNameByUserId(String userId) {
         QGiftcard giftcard=QGiftcard.giftcard;
 
-        return queryFactory
+        return jpaQueryFactory
                 .select(giftcard.shopName)
                 .from(giftcard)
                 .where(giftcard.user.id.eq(userId))
@@ -55,7 +48,7 @@ public class GiftcardPersistencePortImpl implements GiftcardPresistenceQueryPort
     public List<GiftcardListServiceResponse> findAllByUserId(String userId) {
         QGiftcard giftcard=QGiftcard.giftcard;
 
-        return queryFactory
+        return jpaQueryFactory
                 .select(
                         new QGiftcardListServiceResponse(
                                 giftcard.giftcardSeq,

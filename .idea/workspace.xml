@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="" />
+    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandPersistenceAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandQuerydslRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GifrcardBrandPersistencePortImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistenceAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistencePortImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardQuerydslRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardBrandPersistencePort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/CommandGiftcardPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardBrandPersistenceQueryPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardBrandPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardPersistencePort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardPresistenceQueryPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/CommandGiftcardBrandPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/service/ShopServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/service/ShopServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +64,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -57,6 +73,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2ZNmCV5ynw3l5JFRQLOI1IjfUDm" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -69,8 +88,9 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "580de00b",
+    "git-widget-placeholder": "develop",
     "last_directory_selection": "/Users/kksjae/Desktop/final_project/Moic-Backend-Refactoring/Backend/src/main/java/com/finp/moic/giftCard/model",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -162,7 +182,8 @@
       <updated>1702270783649</updated>
       <workItem from="1702270785699" duration="6166000" />
       <workItem from="1702300928680" duration="158000" />
-      <workItem from="1702353840222" duration="8686000" />
+      <workItem from="1702353840222" duration="9938000" />
+      <workItem from="1702528226916" duration="5896000" />
     </task>
     <servers />
   </component>
