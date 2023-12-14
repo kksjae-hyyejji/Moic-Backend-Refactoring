@@ -33,7 +33,7 @@ public class QUserBookmark extends EntityPathBase<UserBookmark> {
     //inherited
     public final BooleanPath isDelete = _super.isDelete;
 
-    public final com.finp.moic.shop.model.entity.QShop shop;
+    public final com.finp.moic.shop.domain.QShop shop;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -60,7 +60,7 @@ public class QUserBookmark extends EntityPathBase<UserBookmark> {
 
     public QUserBookmark(Class<? extends UserBookmark> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.shop = inits.isInitialized("shop") ? new com.finp.moic.shop.model.entity.QShop(forProperty("shop")) : null;
+        this.shop = inits.isInitialized("shop") ? new com.finp.moic.shop.domain.QShop(forProperty("shop")) : null;
         this.user = inits.isInitialized("user") ? new com.finp.moic.user.model.entity.QUser(forProperty("user")) : null;
     }
 

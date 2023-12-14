@@ -5,20 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandPersistenceAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardBrandQuerydslRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/out/persistence/ShopJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/out/persistence/ShopPersistenceAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/out/persistence/ShopQuerydslRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/port/in/ShopUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/repository/CommandShopPersistencePort.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GifrcardBrandPersistencePortImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistenceAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistencePortImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardQuerydslRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardBrandPersistencePort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/CommandGiftcardPersistencePort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardBrandPersistenceQueryPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardBrandPersistencePort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardPersistencePort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardPersistencePort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/GiftcardPresistenceQueryPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/CommandGiftcardBrandPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QBenefitResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QBenefitResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QGiftResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QGiftResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopDetailResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopDetailResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopRecommandResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopRecommandResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopSearchResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/dto/response/QShopSearchResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/entity/QShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/generated/com/finp/moic/shop/model/entity/QShop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/card/adapter/out/persistence/CardBenefitPersistencePortImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/card/adapter/out/persistence/CardBenefitPersistencePortImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/card/application/port/out/CardBenefitQueryPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/card/application/port/out/CardBenefitQueryPort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistenceAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardPersistenceAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardQuerydslRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/GiftcardQuerydslRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardPersistencePort.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/QueryGiftcardPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/in/web/ShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/request/CategoryRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/in/request/CategoryRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/request/ShopRecommandRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/adapter/in/request/ShopRecommandRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/BenefitResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/BenefitResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/GiftResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/GiftResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/ShopDetailResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/ShopDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/ShopRecommandResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/ShopRecommandResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/ShopSearchResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/ShopSearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/dto/response/ShopTempDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/application/response/ShopTempResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/entity/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/domain/Shop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/repository/ShopRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/repository/ShopRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/repository/QueryShopPersistencePort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/repository/ShopRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/service/ShopService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/service/ShopServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/shop/model/service/ShopServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/userBookmark/model/entity/UserBookmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/userBookmark/model/entity/UserBookmark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/userBookmark/model/service/UserBookmarkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/userBookmark/model/service/UserBookmarkServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/database/service/ShopLocationRedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/database/service/ShopLocationRedisService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,8 +85,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -90,7 +111,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "feature/shop",
     "last_directory_selection": "/Users/kksjae/Desktop/final_project/Moic-Backend-Refactoring/Backend/src/main/java/com/finp/moic/giftCard/model",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -102,6 +123,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.finp.moic.shop.domain" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.finp.moic.giftCard.application.request" />
     </key>
@@ -183,7 +207,7 @@
       <workItem from="1702270785699" duration="6166000" />
       <workItem from="1702300928680" duration="158000" />
       <workItem from="1702353840222" duration="9938000" />
-      <workItem from="1702528226916" duration="5896000" />
+      <workItem from="1702528226916" duration="9883000" />
     </task>
     <servers />
   </component>
