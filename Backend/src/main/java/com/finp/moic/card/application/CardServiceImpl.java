@@ -3,12 +3,13 @@ package com.finp.moic.card.application;
 
 import com.finp.moic.card.adapter.in.request.CardDeleteRequest;
 import com.finp.moic.card.adapter.in.request.CardRegistRequest;
+import com.finp.moic.card.application.port.out.CommandUserCardPersistencePort;
+import com.finp.moic.card.application.port.out.QueryCardBenefitPersistencePort;
+import com.finp.moic.card.application.port.out.QueryCardPersistencePort;
+import com.finp.moic.card.application.port.out.QueryUserCardPersistencePort;
 import com.finp.moic.card.application.response.*;
 import com.finp.moic.card.domain.Card;
 import com.finp.moic.card.domain.UserCard;
-import com.finp.moic.card.application.port.out.CardBenefitPersistencePort;
-import com.finp.moic.card.application.port.out.CardPersistencePort;
-import com.finp.moic.card.application.port.out.UserCardPersistencePort;
 import com.finp.moic.card.application.port.in.CardUseCase;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.user.model.repository.UserRepository;
@@ -17,40 +18,33 @@ import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.AlreadyExistException;
 import com.finp.moic.util.exception.list.NotFoundException;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CardServiceImpl implements CardUseCase {
 
-    private final CardPersistencePort cardPersistencePort;
-    private final CardBenefitPersistencePort cardBenefitPersistencePort;
+    private final QueryCardPersistencePort queryCardPersistencePort;
+    private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
     private final UserRepository userRepository;
-    private final UserCardPersistencePort userCardPersistencePort;
+    private final CommandUserCardPersistencePort commandUserCardPersistencePort;
+    private final QueryUserCardPersistencePort queryUserCardPersistencePort;
     private final CacheRedisService cacheRedisService;
+
     private List<String> companyList;
     private List<String> typeList;
     @PostConstruct
     public void initalize(){
-        companyList = cardPersistencePort.findAllCompany();
-        typeList = cardPersistencePort.findAllType();
+        companyList = queryCardPersistencePort.findAllCompany();
+        typeList = queryCardPersistencePort.findAllType();
         Collections.sort(companyList);
         Collections.sort(typeList);
     }
 
-    @Autowired
-    public CardServiceImpl(CardPersistencePort cardPersistencePort, CardBenefitPersistencePort cardBenefitPersistencePort,
-                           UserRepository userRepository, UserCardPersistencePort userCardPersistencePort,
-                           CacheRedisService cacheRedisService) {
-        this.cardPersistencePort = cardPersistencePort;
-        this.cardBenefitPersistencePort = cardBenefitPersistencePort;
-        this.userRepository = userRepository;
-        this.userCardPersistencePort = userCardPersistencePort;
-        this.cacheRedisService = cacheRedisService;
-    }
 
     @Override
     public void registCard(CardRegistRequest cardRegistRequest, String userId) {
@@ -60,19 +54,19 @@ public class CardServiceImpl implements CardUseCase {
          * */
 
         /*** RDB Access ***/
-        Card card= cardPersistencePort.findByName(cardRegistRequest.getCardName())
+        Card card= queryCardPersistencePort.findByName(cardRegistRequest.getCardName())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.CARD_NOT_FOUND));
         User user=userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** Validation ***/
         /* 혜지 : 한 사용자에 대해 중복된 카드 등록 불가 */
-        if(userCardPersistencePort.exist(user.getId(),card.getName()))
+        if(queryUserCardPersistencePort.exist(user.getId(),card.getName()))
             throw new AlreadyExistException(ExceptionEnum.CARD_REGIST_DUPLICATE);
 
         /*** RDB Access ***/
         /* 혜지 : userCardSeq 등의 기본 데이터셋 저장 */
-        UserCard userCard= userCardPersistencePort.save(UserCard.builder()
+        UserCard userCard= commandUserCardPersistencePort.save(UserCard.builder()
                 .build());
 
         /*** Entity Builder ***/
@@ -84,7 +78,7 @@ public class CardServiceImpl implements CardUseCase {
 
         /*** RDB Access ***/
         /* 혜지 : userCard FK 저장 */
-        userCardPersistencePort.save(userCard);
+        commandUserCardPersistencePort.save(userCard);
 
         /*** Redis Access ***/
         /* 혜지 : 값 업데이트가 되었으므로 캐싱 데이터 삭제 */
@@ -99,8 +93,8 @@ public class CardServiceImpl implements CardUseCase {
          * TO DO :: SOFT DELETE 확인해, 삭제된 데이터 가져오지 않기
          * */
 
-        List<CardServiceResponse> cardDTOList= cardPersistencePort.findAllCard();
-        List<String> userCardNameList= userCardPersistencePort.findAllCardNameByUserId(userId);
+        List<CardServiceResponse> cardDTOList= queryCardPersistencePort.findAllCard();
+        List<String> userCardNameList= queryUserCardPersistencePort.findAllCardNameByUserId(userId);
 
         /*** DTO Builder ***/
         for(int idx=0;idx<cardDTOList.size();idx++){
@@ -128,7 +122,7 @@ public class CardServiceImpl implements CardUseCase {
          * */
 
         /*** RDB Access ***/
-        List<CardMineServiceResponse> dto= userCardPersistencePort.findAllByUserId(userId);
+        List<CardMineServiceResponse> dto= queryUserCardPersistencePort.findAllByUserId(userId);
 
         return dto;
     }
@@ -139,11 +133,11 @@ public class CardServiceImpl implements CardUseCase {
         /*** Validation ***/
         User user=userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
-        UserCard userCard= userCardPersistencePort.findByUserIdAndCardName(userId, cardDeleteRequest.getCardName())
+        UserCard userCard= queryUserCardPersistencePort.findByUserIdAndCardName(userId, cardDeleteRequest.getCardName())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.CARD_USER_NOT_FOUND));
 
         /*** RDB Access ***/
-        userCardPersistencePort.delete(userCard);
+        commandUserCardPersistencePort.delete(userCard);
 
         /*** Redis Access ***/
         /* 혜지 : 값 업데이트가 되었으므로 캐싱 데이터 삭제 */
@@ -155,14 +149,14 @@ public class CardServiceImpl implements CardUseCase {
     public CardDetailServiceResponse detailCard(String cardName) {
 
         /*** Validation ***/
-        Card card= cardPersistencePort.findByName(cardName)
+        Card card= queryCardPersistencePort.findByName(cardName)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.CARD_NOT_FOUND));
 
         /*** RDB Access ***/
         /**
          * TO DO :: UserCardBenefit에 대한 캐싱 데이터 조회 및 백업
          **/
-        List<CardBenefitServiceResponse> cardBenefitList= cardBenefitPersistencePort.findByCardName(cardName);
+        List<CardBenefitServiceResponse> cardBenefitList= queryCardBenefitPersistencePort.findByCardName(cardName);
 
         /*** DTO Builder ***/
         CardDetailServiceResponse dto= CardDetailServiceResponse.builder()
@@ -185,9 +179,9 @@ public class CardServiceImpl implements CardUseCase {
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** RDB Access ***/
-        List<CardServiceResponse> dto= cardPersistencePort.search(company,type,cardName);
+        List<CardServiceResponse> dto= queryCardPersistencePort.search(company,type,cardName);
 
-        List<String> userCardNameList= userCardPersistencePort.findAllCardNameByUserId(userId);
+        List<String> userCardNameList= queryUserCardPersistencePort.findAllCardNameByUserId(userId);
 
         /*** DTO Builder ***/
         for(int idx=0;idx<dto.size();idx++){

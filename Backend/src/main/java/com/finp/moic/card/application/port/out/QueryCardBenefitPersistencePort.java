@@ -5,14 +5,12 @@ import com.finp.moic.shop.model.dto.response.BenefitResponseDTO;
 
 import java.util.List;
 
-public interface CardBenefitQueryPort {
-
-    Boolean exist(String cardName);
+public interface QueryCardBenefitPersistencePort {
+    boolean exist(String cardName);
 
     List<CardBenefitServiceResponse> findByCardName(String cardName);
 
     List<BenefitResponseDTO> findAllByUserIdAndShopName(String userId, String shopName);
 
     List<String> findAllShopNameByUserId(String userId);
-
 }

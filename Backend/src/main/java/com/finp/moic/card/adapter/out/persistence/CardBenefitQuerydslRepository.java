@@ -1,6 +1,5 @@
 package com.finp.moic.card.adapter.out.persistence;
 
-import com.finp.moic.card.application.port.out.CardBenefitQueryPort;
 import com.finp.moic.card.application.response.CardBenefitServiceResponse;
 import com.finp.moic.card.application.response.QCardBenefitServiceResponse;
 import com.finp.moic.card.domain.QCardBenefit;
@@ -10,20 +9,16 @@ import com.finp.moic.shop.model.dto.response.QBenefitResponseDTO;
 import com.finp.moic.shop.model.entity.QShop;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
-public class CardBenefitPersistencePortImpl implements CardBenefitQueryPort {
+@Repository
+@RequiredArgsConstructor
+public class CardBenefitQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    @Autowired
-    public CardBenefitPersistencePortImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
 
     public Boolean exist(String cardName){
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
@@ -37,7 +32,6 @@ public class CardBenefitPersistencePortImpl implements CardBenefitQueryPort {
         return fetchOne != null;
     }
 
-    @Override
     public List<CardBenefitServiceResponse> findByCardName(String cardName) {
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
 
@@ -57,7 +51,6 @@ public class CardBenefitPersistencePortImpl implements CardBenefitQueryPort {
                 .fetch();
     }
 
-    @Override
     public List<BenefitResponseDTO> findAllByUserIdAndShopName(String userId, String shopName) {
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
         QUserCard userCard=QUserCard.userCard;
@@ -85,7 +78,6 @@ public class CardBenefitPersistencePortImpl implements CardBenefitQueryPort {
                 .fetch();
     }
 
-    @Override
     public List<String> findAllShopNameByUserId(String userId) {
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
         QUserCard userCard=QUserCard.userCard;

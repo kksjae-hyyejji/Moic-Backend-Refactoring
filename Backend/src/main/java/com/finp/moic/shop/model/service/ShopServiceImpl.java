@@ -1,7 +1,6 @@
 package com.finp.moic.shop.model.service;
 
 import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
-import com.finp.moic.card.application.port.out.CardBenefitPersistencePort;
 import com.finp.moic.shop.model.dto.request.CategoryRequestDTO;
 import com.finp.moic.shop.model.dto.request.ShopRecommandRequestDTO;
 import com.finp.moic.shop.model.dto.response.*;

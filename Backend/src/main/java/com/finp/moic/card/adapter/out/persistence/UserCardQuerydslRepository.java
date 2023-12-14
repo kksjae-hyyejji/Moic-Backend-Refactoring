@@ -1,23 +1,18 @@
 package com.finp.moic.card.adapter.out.persistence;
 
-import com.finp.moic.card.application.port.out.UserCardQueryPort;
 import com.finp.moic.card.application.response.CardMineServiceResponse;
 import com.finp.moic.card.application.response.QCardMineServiceResponse;
 import com.finp.moic.card.domain.QUserCard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Component
-public class UserCardPersistencePortImpl implements UserCardQueryPort {
+@Repository
+@RequiredArgsConstructor
+public class UserCardQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    @Autowired
-    public UserCardPersistencePortImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
 
     public Boolean exist(String userId, String cardName) {
         QUserCard userCard=QUserCard.userCard;
@@ -34,7 +29,6 @@ public class UserCardPersistencePortImpl implements UserCardQueryPort {
         return fetchOne != null;
     }
 
-    @Override
     public List<String> findAllCardNameByUserId(String userId) {
         QUserCard userCard=QUserCard.userCard;
 
@@ -45,7 +39,6 @@ public class UserCardPersistencePortImpl implements UserCardQueryPort {
                 .fetch();
     }
 
-    @Override
     public List<CardMineServiceResponse> findAllByUserId(String userId) {
         QUserCard userCard=QUserCard.userCard;
 
