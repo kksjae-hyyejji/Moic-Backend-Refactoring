@@ -1,7 +1,7 @@
 package com.finp.moic.userBookmark.model.service;
 
-import com.finp.moic.shop.model.entity.Shop;
-import com.finp.moic.shop.model.repository.ShopRepository;
+import com.finp.moic.shop.domain.Shop;
+import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.user.model.repository.UserRepository;
 import com.finp.moic.userBookmark.model.dto.request.ShopRequestDTO;
@@ -13,25 +13,18 @@ import com.finp.moic.userBookmark.model.repository.UserBookmarkRepository;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.AlreadyExistException;
 import com.finp.moic.util.exception.list.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserBookmarkServiceImpl implements UserBookmarkService{
 
     private final UserBookmarkRepository userBookmarkRepository;
     private final UserRepository userRepository;
-    private final ShopRepository shopRepository;
-
-    @Autowired
-    public UserBookmarkServiceImpl(UserBookmarkRepository userBookmarkRepository, UserRepository userRepository,
-                                   ShopRepository shopRepository) {
-        this.userBookmarkRepository = userBookmarkRepository;
-        this.userRepository = userRepository;
-        this.shopRepository = shopRepository;
-    }
+    private final QueryShopPersistencePort queryShopPersistencePort;
 
     @Override
     public void registBookmark(UserBookmarkRegistRequestDTO userBookmarkRegistRequestDTO, String userId) {
@@ -41,7 +34,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkService{
          * */
 
         /*** RDB Access ***/
-        Shop shop=shopRepository.findEntityByNameAndLocation(userBookmarkRegistRequestDTO.getShopName(),userBookmarkRegistRequestDTO.getShopLocation())
+        Shop shop=queryShopPersistencePort.findEntityByNameAndLocation(userBookmarkRegistRequestDTO.getShopName(),userBookmarkRegistRequestDTO.getShopLocation())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
         User user=userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
@@ -78,7 +71,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkService{
 
         /*** RDB Access ***/
         for(ShopRequestDTO shopDTO:userBookmarkDeleteRequestDTO.getShopList()){
-            Long shopSeq=shopRepository.findSeqByNameAndLocation(shopDTO.getShopName(),shopDTO.getShopLocation())
+            Long shopSeq=queryShopPersistencePort.findSeqByNameAndLocation(shopDTO.getShopName(),shopDTO.getShopLocation())
                     .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
             UserBookmark userBookmark=userBookmarkRepository.findByUserIdAndShopSeq(user.getId(),shopSeq)

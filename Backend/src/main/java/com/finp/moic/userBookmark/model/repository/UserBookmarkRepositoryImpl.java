@@ -1,6 +1,5 @@
 package com.finp.moic.userBookmark.model.repository;
 
-import com.finp.moic.shop.model.entity.QShop;
 import com.finp.moic.userBookmark.model.dto.response.QUserBookmarkLookupResponseDTO;
 import com.finp.moic.userBookmark.model.dto.response.UserBookmarkLookupResponseDTO;
 import com.finp.moic.userBookmark.model.entity.QUserBookmark;

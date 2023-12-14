@@ -3,8 +3,8 @@ package com.finp.moic.giftCard.adapter.out.persistence;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.QGiftcard;
 import com.finp.moic.giftCard.application.response.QGiftcardListServiceResponse;
-import com.finp.moic.shop.model.dto.response.GiftResponseDTO;
-import com.finp.moic.shop.model.dto.response.QGiftResponseDTO;
+import com.finp.moic.shop.application.response.GiftResponse;
+import com.finp.moic.shop.application.response.QGiftResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,12 +17,12 @@ public class GiftcardQuerydslRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<GiftResponseDTO> findAllByUserIdAndShopName(String userId, String shopName) {
+    public List<GiftResponse> findAllByUserIdAndShopName(String userId, String shopName) {
         QGiftcard giftcard=QGiftcard.giftcard;
 
         return jpaQueryFactory
                 .select(
-                        new QGiftResponseDTO(
+                        new QGiftResponse(
                                 giftcard.imageUrl,
                                 giftcard.dueDate
                         )
