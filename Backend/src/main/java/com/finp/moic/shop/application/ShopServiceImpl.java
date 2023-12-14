@@ -1,7 +1,8 @@
 package com.finp.moic.shop.application;
 
+import com.finp.moic.card.application.port.out.QueryCardBenefitPersistencePort;
 import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
-import com.finp.moic.card.application.port.out.CardBenefitPersistencePort;
+
 import com.finp.moic.shop.adapter.in.request.CategoryRequest;
 import com.finp.moic.shop.adapter.in.request.ShopRecommandRequest;
 import com.finp.moic.shop.application.port.in.ShopUseCase;
@@ -25,7 +26,7 @@ public class ShopServiceImpl implements ShopUseCase {
 
     private final QueryShopPersistencePort queryShopPersistencePort;
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
-    private final CardBenefitPersistencePort cardBenefitPersistencePort;
+    private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
     private final UserBookmarkRepository userBookmarkRepository;
     private final ShopLocationRedisService shopLocationRedisService;
     private final CacheRedisService cacheRedisService;
@@ -44,7 +45,7 @@ public class ShopServiceImpl implements ShopUseCase {
         }
 
         List<GiftResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-        List<BenefitResponse> benefitDTOList= cardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
+        List<BenefitResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
 
         /** DTO Builder **/
         dto.setBenefits(benefitDTOList);
@@ -58,7 +59,7 @@ public class ShopServiceImpl implements ShopUseCase {
 
         /** Validation, Redis Access **/
         if(!cacheRedisService.existUserBenefitShopKey(userId)){
-            List<String> benefitShopNameList= cardBenefitPersistencePort.findAllShopNameByUserId(userId);
+            List<String> benefitShopNameList= queryCardBenefitPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserBenefitShopList(benefitShopNameList,userId);
         }
 
@@ -92,7 +93,7 @@ public class ShopServiceImpl implements ShopUseCase {
 
         /** Validation, Redis Access **/
         if(!cacheRedisService.existUserBenefitShopKey(userId)){
-            List<String> benefitShopNameList= cardBenefitPersistencePort.findAllShopNameByUserId(userId);
+            List<String> benefitShopNameList= queryCardBenefitPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserBenefitShopList(benefitShopNameList,userId);
         }
 
@@ -155,7 +156,7 @@ public class ShopServiceImpl implements ShopUseCase {
 
             /** RDB Access **/
             List<GiftResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-            List<BenefitResponse> benefitDTOList= cardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
+            List<BenefitResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
 
             /** DTO Builder **/
             redisDTO.setBenefits(benefitDTOList);
