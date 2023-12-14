@@ -1,6 +1,6 @@
 package com.finp.moic.userBookmark.model.entity;
 
-import com.finp.moic.shop.model.entity.Shop;
+import com.finp.moic.shop.domain.Shop;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.util.entity.Base;
 import jakarta.persistence.*;

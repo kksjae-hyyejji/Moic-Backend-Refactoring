@@ -5,9 +5,9 @@ import com.finp.moic.card.application.response.CardBenefitServiceResponse;
 import com.finp.moic.card.application.response.QCardBenefitServiceResponse;
 import com.finp.moic.card.domain.QCardBenefit;
 import com.finp.moic.card.domain.QUserCard;
-import com.finp.moic.shop.model.dto.response.BenefitResponseDTO;
-import com.finp.moic.shop.model.dto.response.QBenefitResponseDTO;
-import com.finp.moic.shop.model.entity.QShop;
+import com.finp.moic.shop.application.response.BenefitResponse;
+import com.finp.moic.shop.application.response.QBenefitResponse;
+import com.finp.moic.shop.domain.QShop;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +58,13 @@ public class CardBenefitPersistencePortImpl implements CardBenefitQueryPort {
     }
 
     @Override
-    public List<BenefitResponseDTO> findAllByUserIdAndShopName(String userId, String shopName) {
+    public List<BenefitResponse> findAllByUserIdAndShopName(String userId, String shopName) {
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
         QUserCard userCard=QUserCard.userCard;
 
         return queryFactory
                 .select(
-                        new QBenefitResponseDTO(
+                        new QBenefitResponse(
                                 cardBenefit.card.name.as("cardName"),
                                 cardBenefit.card.cardImage.as("cardImage"),
                                 cardBenefit.content,
