@@ -3,8 +3,7 @@ package com.finp.moic.giftCard.adapter.in.web;
 import com.finp.moic.giftCard.adapter.in.request.GiftcardDeleteRequestDTO;
 import com.finp.moic.giftCard.application.port.in.GiftcardUseCase;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
-import com.finp.moic.giftCard.application.GiftcardServiceImpl;
-import com.finp.moic.util.database.service.S3Service;
+import com.finp.moic.giftCard.adapter.out.persistence.ImageS3Adapter;
 import com.finp.moic.util.dto.ResponseDTO;
 import com.finp.moic.util.security.dto.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,12 +22,12 @@ import java.util.List;
 public class GiftcardController {
 
     private final GiftcardUseCase giftcardUseCase;
-    private final S3Service s3Service;
+    private final ImageS3Adapter commandImageS3Port;
 
     @Autowired
-    public GiftcardController(GiftcardUseCase giftcardUseCase, S3Service s3Service) {
+    public GiftcardController(GiftcardUseCase giftcardUseCase, ImageS3Adapter commandImageS3Port) {
         this.giftcardUseCase = giftcardUseCase;
-        this.s3Service = s3Service;
+        this.commandImageS3Port = commandImageS3Port;
     }
 
     @PostMapping("/regist")

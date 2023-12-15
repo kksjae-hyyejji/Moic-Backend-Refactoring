@@ -1,4 +1,4 @@
-package com.finp.moic.util.dto;
+package com.finp.moic.giftCard.application.request;
 
 import lombok.Builder;
 import lombok.Getter;

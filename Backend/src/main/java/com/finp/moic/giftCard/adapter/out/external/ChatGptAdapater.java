@@ -1,21 +1,22 @@
-package com.finp.moic.util.service;
+package com.finp.moic.giftCard.adapter.out.external;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finp.moic.util.dto.ChatGptMessage;
-import com.finp.moic.util.dto.ChatGptResuest;
+import com.finp.moic.giftCard.application.port.out.external.ChatGptPort;
+import com.finp.moic.giftCard.application.request.ChatGptMessage;
+import com.finp.moic.giftCard.application.request.ChatGptResuest;
 import com.finp.moic.util.exception.BusinessException;
 import com.finp.moic.util.exception.ExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class ChatGptService {
+@Component
+public class ChatGptAdapater implements ChatGptPort {
 
     @Value("${CHAT_APIURL}")
     private String apiUrl;
@@ -28,7 +29,7 @@ public class ChatGptService {
     private final WebClient webClient;
 
     @Autowired
-    public ChatGptService(WebClient webClient) {
+    public ChatGptAdapater(WebClient webClient) {
         this.webClient = webClient;
     }
 
