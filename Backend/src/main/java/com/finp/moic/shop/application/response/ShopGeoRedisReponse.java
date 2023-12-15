@@ -1,4 +1,4 @@
-package com.finp.moic.util.database.entity;
+package com.finp.moic.shop.application.response;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,23 +13,23 @@ import java.io.Serializable;
 @Getter
 @ToString
 @RedisHash
-public class ShopLocationRedisDTO implements Serializable {
+public class ShopGeoRedisReponse implements Serializable {
 
-    private String mainCategory; //사용 여부 미정
+    private String mainCategory;
     private String category;
     private String location;
     private String address;
-    private String guName; //사용 여부 미정
+    private String guName;
     private double latitude;
     private double longitude;
 
-    public ShopLocationRedisDTO() {
+    public ShopGeoRedisReponse() {
     }
 
     @Builder
-    public ShopLocationRedisDTO(String mainCategory, String category,
-                                String location, String address, String guName,
-                                double latitude, double longitude) {
+    public ShopGeoRedisReponse(String mainCategory, String category,
+                               String location, String address, String guName,
+                               double latitude, double longitude) {
         this.mainCategory = mainCategory;
         this.category = category;
         this.location = location;
@@ -39,8 +39,8 @@ public class ShopLocationRedisDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public static ShopLocationRedisDTO fromJson(String json) throws JsonProcessingException {
+    public static ShopGeoRedisReponse fromJson(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, ShopLocationRedisDTO.class);
+        return objectMapper.readValue(json, ShopGeoRedisReponse.class);
     }
 }

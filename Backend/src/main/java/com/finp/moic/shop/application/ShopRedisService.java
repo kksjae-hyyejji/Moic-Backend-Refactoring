@@ -1,10 +1,11 @@
-package com.finp.moic.util.database.service;
+package com.finp.moic.shop.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finp.moic.shop.application.port.in.ShopRedisUseCase;
 import com.finp.moic.shop.application.response.ShopRecommandResponse;
 import com.finp.moic.shop.application.response.ShopSearchResponse;
 import com.finp.moic.shop.domain.Shop;
-import com.finp.moic.util.database.entity.ShopLocationRedisDTO;
+import com.finp.moic.shop.application.response.ShopGeoRedisReponse;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.DeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class ShopLocationRedisService {
+public class ShopRedisService implements ShopRedisUseCase {
 
     private final RedisTemplate<String, Object> mainRedis;
     private final GeoOperations<String, Object> geoOperations;
 
     @Autowired
-    public ShopLocationRedisService(@Qualifier("MainRedis") RedisTemplate<String, Object> mainRedis) {
+    public ShopRedisService(@Qualifier("MainRedis") RedisTemplate<String, Object> mainRedis) {
         this.mainRedis = mainRedis;
         this.geoOperations = mainRedis.opsForGeo();
     }
@@ -34,8 +35,8 @@ public class ShopLocationRedisService {
     /**
      * 가맹점별 위치와 정보 저장 (Redis가 날아갔을 경우 대비 -> 되도록 쓰지 말기)
      **/
-    public void setShopLocationList(List<Shop> shopList) {
-
+    @Override
+    public void setGeoShopList(List<Shop> shopList) {
         /** Redis Access **/
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -45,7 +46,7 @@ public class ShopLocationRedisService {
                         shop.getName(), //KEY
                         new Point(shop.getLongitude(), shop.getLatitude()), //POINT
                         objectMapper.writeValueAsString( //MEMBER
-                                ShopLocationRedisDTO
+                                ShopGeoRedisReponse
                                         .builder()
                                         .mainCategory(shop.getMainCategory())
                                         .category(shop.getCategory())
@@ -66,6 +67,7 @@ public class ShopLocationRedisService {
         }
     }
 
+    @Override
     public List<ShopSearchResponse> searchShopListNearByUser(String shopName, double latitude, double longitude) {
 
         List<ShopSearchResponse> dto = new ArrayList<>();
@@ -80,7 +82,7 @@ public class ShopLocationRedisService {
             String json = (String) location.getName();
 
             try {
-                ShopLocationRedisDTO redisDTO = ShopLocationRedisDTO.fromJson(json);
+                ShopGeoRedisReponse redisDTO = ShopGeoRedisReponse.fromJson(json);
                 ShopSearchResponse searchDTO = ShopSearchResponse.builder()
                         .category(redisDTO.getCategory())
                         .shopName(shopName)
@@ -98,6 +100,7 @@ public class ShopLocationRedisService {
         return dto;
     }
 
+    @Override
     public ShopRecommandResponse searchShopNearByUser(String shopName, double latitude, double longitude) {
 
         /** Redis Access **/
@@ -110,7 +113,7 @@ public class ShopLocationRedisService {
             String json = (String) location.getName();
 
             try {
-                ShopLocationRedisDTO redisDTO = ShopLocationRedisDTO.fromJson(json);
+                ShopGeoRedisReponse redisDTO = ShopGeoRedisReponse.fromJson(json);
                 ShopRecommandResponse dto = ShopRecommandResponse.builder()
                         .shopName(shopName)
                         .shopLocation(redisDTO.getLocation())
@@ -128,6 +131,7 @@ public class ShopLocationRedisService {
         return searchShop(shopName, latitude, longitude);
     }
 
+    @Override
     public ShopRecommandResponse searchShop(String shopName, double latitude, double longitude) {
 
         /** Redis Access **/
@@ -140,7 +144,7 @@ public class ShopLocationRedisService {
             String json = (String) location.getName();
 
             try {
-                ShopLocationRedisDTO redisDTO = ShopLocationRedisDTO.fromJson(json);
+                ShopGeoRedisReponse redisDTO = ShopGeoRedisReponse.fromJson(json);
                 ShopRecommandResponse dto = ShopRecommandResponse.builder()
                         .shopName(shopName)
                         .shopLocation(redisDTO.getLocation())
