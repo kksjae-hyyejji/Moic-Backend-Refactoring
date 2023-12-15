@@ -1,6 +1,6 @@
-package com.finp.moic.autoComplete.controller;
+package com.finp.moic.autoComplete.adapter.in;
 
-import com.finp.moic.autoComplete.service.AutoCompleteService;
+import com.finp.moic.autoComplete.application.AutoCompleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

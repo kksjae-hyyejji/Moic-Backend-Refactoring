@@ -1,4 +1,4 @@
-package com.finp.moic.autoComplete.service;
+package com.finp.moic.autoComplete.application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
