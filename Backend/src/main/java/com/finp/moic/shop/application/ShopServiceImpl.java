@@ -8,9 +8,8 @@ import com.finp.moic.shop.adapter.in.request.ShopRecommandRequest;
 import com.finp.moic.shop.application.port.in.ShopUseCase;
 import com.finp.moic.shop.application.response.*;
 import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
-import com.finp.moic.userBookmark.model.repository.UserBookmarkRepository;
+import com.finp.moic.userBookmark.application.port.out.QueryUserBookmarkPersistencePort;
 import com.finp.moic.util.database.service.CacheRedisService;
-import com.finp.moic.util.database.service.ShopLocationRedisService;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,8 @@ public class ShopServiceImpl implements ShopUseCase {
     private final QueryShopPersistencePort queryShopPersistencePort;
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
     private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
-    private final UserBookmarkRepository userBookmarkRepository;
-    private final ShopLocationRedisService shopLocationRedisService;
+    private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
+    private final ShopRedisService shopRedisService;
     private final CacheRedisService cacheRedisService;
 
 
@@ -40,7 +39,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 .findByNameAndLocation(shopName,shopLocation)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
-        if(userBookmarkRepository.exist(userId,shopName,shopLocation)){
+        if(queryUserBookmarkPersistencePort.exist(userId,shopName,shopLocation)){
             dto.setBookmark(true);
         }
 
@@ -72,7 +71,7 @@ public class ShopServiceImpl implements ShopUseCase {
         String shopName=queryShopPersistencePort.findShopNameByKeyword(keyword);
 
         /** Redis Access **/
-        List<ShopSearchResponse> dto=shopLocationRedisService.searchShopListNearByUser(shopName,latitude,longitude);
+        List<ShopSearchResponse> dto= shopRedisService.searchShopListNearByUser(shopName,latitude,longitude);
 
         /** DTO Builder **/
         for(int idx=0;idx<dto.size();idx++){
@@ -80,7 +79,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBenefits(true);
             if(cacheRedisService.existUserGiftShop(dto.get(idx).getShopName(),userId))
                 dto.get(idx).setGifts(true);
-            if(userBookmarkRepository.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())){
+            if(queryUserBookmarkPersistencePort.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())){
                 dto.get(idx).setBookmark(true);
             }
         }
@@ -109,7 +108,7 @@ public class ShopServiceImpl implements ShopUseCase {
         List<ShopSearchResponse> dto=new ArrayList<>();
         for(String shopName:shopNameList) {
             /** Redis Access **/
-            dto.addAll(shopLocationRedisService.searchShopListNearByUser(shopName,latitude,longitude));
+            dto.addAll(shopRedisService.searchShopListNearByUser(shopName,latitude,longitude));
         }
 
         /** DTO Builder **/
@@ -118,7 +117,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBenefits(true);
             if(cacheRedisService.existUserGiftShop(dto.get(idx).getShopName(),userId))
                 dto.get(idx).setGifts(true);
-            if(userBookmarkRepository.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())) {
+            if(queryUserBookmarkPersistencePort.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())) {
                 dto.get(idx).setBookmark(true);
             }
         }
@@ -147,7 +146,7 @@ public class ShopServiceImpl implements ShopUseCase {
             String shopName=shopNameList.get(0);
 
             /** Redis Access **/
-            ShopRecommandResponse redisDTO=shopLocationRedisService.searchShopNearByUser//예외처리
+            ShopRecommandResponse redisDTO= shopRedisService.searchShopNearByUser//예외처리
                     (shopName, shopRecommandRequest.getLatitude(), shopRecommandRequest.getLongitude());
             /** Validation **/
             if(redisDTO==null){

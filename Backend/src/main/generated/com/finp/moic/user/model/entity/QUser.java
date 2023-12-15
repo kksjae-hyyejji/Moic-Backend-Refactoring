@@ -46,7 +46,7 @@ public class QUser extends EntityPathBase<User> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final ListPath<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark> userBookMarks = this.<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark>createList("userBookMarks", com.finp.moic.userBookmark.model.entity.UserBookmark.class, com.finp.moic.userBookmark.model.entity.QUserBookmark.class, PathInits.DIRECT2);
+    public final ListPath<com.finp.moic.userBookmark.domain.UserBookmark, com.finp.moic.userBookmark.domain.QUserBookmark> userBookMarks = this.<com.finp.moic.userBookmark.domain.UserBookmark, com.finp.moic.userBookmark.domain.QUserBookmark>createList("userBookMarks", com.finp.moic.userBookmark.domain.UserBookmark.class, com.finp.moic.userBookmark.domain.QUserBookmark.class, PathInits.DIRECT2);
 
     public final ListPath<com.finp.moic.card.domain.UserCard, com.finp.moic.card.domain.QUserCard> userCards = this.<com.finp.moic.card.domain.UserCard, com.finp.moic.card.domain.QUserCard>createList("userCards", com.finp.moic.card.domain.UserCard.class, com.finp.moic.card.domain.QUserCard.class, PathInits.DIRECT2);
 
