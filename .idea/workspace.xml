@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/CommandImageS3Port.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/external/ChatGptPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/port/out/external/NaverOcrPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/in/web/GiftcardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/in/web/GiftcardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/GiftcardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/database/service/S3Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/persistence/ImageS3Adapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/dto/ChatGptMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/request/ChatGptMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/dto/ChatGptResuest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/request/ChatGptResuest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/service/ChatGptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/external/ChatGptAdapater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/util/service/NaverOcrService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/adapter/out/external/NaverOcrAdapater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/autoComplete/controller/AutoCompleteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/autoComplete/adapter/in/AutoCompleteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/autoComplete/service/AutoCompleteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/autoComplete/application/AutoCompleteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +78,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/giftcard",
+    "git-widget-placeholder": "feature/autocomplete",
     "last_directory_selection": "/Users/kksjae/Desktop/final_project/Moic-Backend-Refactoring/Backend/src/main/java/com/finp/moic/giftCard/model",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -185,7 +176,7 @@
       <workItem from="1702300928680" duration="158000" />
       <workItem from="1702353840222" duration="9938000" />
       <workItem from="1702528226916" duration="11752000" />
-      <workItem from="1702616676441" duration="5064000" />
+      <workItem from="1702616676441" duration="6518000" />
     </task>
     <servers />
   </component>
