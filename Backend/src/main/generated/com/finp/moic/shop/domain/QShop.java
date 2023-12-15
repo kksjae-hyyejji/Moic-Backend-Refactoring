@@ -52,7 +52,7 @@ public class QShop extends EntityPathBase<Shop> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final ListPath<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark> userBookMarks = this.<com.finp.moic.userBookmark.model.entity.UserBookmark, com.finp.moic.userBookmark.model.entity.QUserBookmark>createList("userBookMarks", com.finp.moic.userBookmark.model.entity.UserBookmark.class, com.finp.moic.userBookmark.model.entity.QUserBookmark.class, PathInits.DIRECT2);
+    public final ListPath<com.finp.moic.userBookmark.domain.UserBookmark, com.finp.moic.userBookmark.domain.QUserBookmark> userBookMarks = this.<com.finp.moic.userBookmark.domain.UserBookmark, com.finp.moic.userBookmark.domain.QUserBookmark>createList("userBookMarks", com.finp.moic.userBookmark.domain.UserBookmark.class, com.finp.moic.userBookmark.domain.QUserBookmark.class, PathInits.DIRECT2);
 
     public QShop(String variable) {
         super(Shop.class, forVariable(variable));

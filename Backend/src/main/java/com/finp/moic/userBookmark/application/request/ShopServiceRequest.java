@@ -1,4 +1,4 @@
-package com.finp.moic.userBookmark.model.dto.request;
+package com.finp.moic.userBookmark.application.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class ShopRequestDTO {
+public class ShopServiceRequest {
 
     @NotBlank
     private String shopName;
@@ -16,11 +16,11 @@ public class ShopRequestDTO {
     @NotNull
     private String shopLocation;
 
-    public ShopRequestDTO() {
+    public ShopServiceRequest() {
     }
 
     @Builder
-    public ShopRequestDTO(String shopName, String shopLocation) {
+    public ShopServiceRequest(String shopName, String shopLocation) {
         this.shopName = shopName;
         this.shopLocation = shopLocation;
     }

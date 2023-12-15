@@ -1,4 +1,4 @@
-package com.finp.moic.userBookmark.model.entity;
+package com.finp.moic.userBookmark.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QUserBookmark extends EntityPathBase<UserBookmark> {
 
-    private static final long serialVersionUID = 598187184L;
+    private static final long serialVersionUID = -1645483404L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

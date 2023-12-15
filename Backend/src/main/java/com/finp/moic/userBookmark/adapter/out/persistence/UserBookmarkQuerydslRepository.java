@@ -1,25 +1,22 @@
-package com.finp.moic.userBookmark.model.repository;
+package com.finp.moic.userBookmark.adapter.out.persistence;
 
-import com.finp.moic.userBookmark.model.dto.response.QUserBookmarkLookupResponseDTO;
-import com.finp.moic.userBookmark.model.dto.response.UserBookmarkLookupResponseDTO;
-import com.finp.moic.userBookmark.model.entity.QUserBookmark;
-import com.finp.moic.userBookmark.model.entity.UserBookmark;
+import com.finp.moic.userBookmark.application.response.QUserBookmarkLookupServiceResponse;
+import com.finp.moic.userBookmark.application.response.UserBookmarkLookupServiceResponse;
+import com.finp.moic.userBookmark.domain.QUserBookmark;
+import com.finp.moic.userBookmark.domain.UserBookmark;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UserBookmarkRepositoryImpl implements UserBookmarkRepositoryCustom{
+@Repository
+@RequiredArgsConstructor
+public class UserBookmarkQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    @Autowired
-    public UserBookmarkRepositoryImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
-
-    @Override
     public boolean exist(String id, String name, String location) {
         QUserBookmark userBookmark=QUserBookmark.userBookmark;
 
@@ -36,13 +33,12 @@ public class UserBookmarkRepositoryImpl implements UserBookmarkRepositoryCustom{
         return fetchOne != null;
     }
 
-    @Override
-    public List<UserBookmarkLookupResponseDTO> findAllByUserId(String userId) {
+    public List<UserBookmarkLookupServiceResponse> findAllByUserId(String userId) {
         QUserBookmark userBookmark=QUserBookmark.userBookmark;
 
         return queryFactory
                 .select(
-                        new QUserBookmarkLookupResponseDTO(
+                        new QUserBookmarkLookupServiceResponse(
                                 userBookmark.shop.category.as("category"),
                                 userBookmark.shop.name.as("shopName"),
                                 userBookmark.shop.location.as("shopLocation"),
@@ -56,7 +52,6 @@ public class UserBookmarkRepositoryImpl implements UserBookmarkRepositoryCustom{
                 .fetch();
     }
 
-    @Override
     public Optional<UserBookmark> findByUserIdAndShopSeq(String id, Long shopSeq) {
         QUserBookmark userBookmark=QUserBookmark.userBookmark;
 

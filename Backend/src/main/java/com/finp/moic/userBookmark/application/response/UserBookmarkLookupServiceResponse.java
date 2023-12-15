@@ -1,4 +1,4 @@
-package com.finp.moic.userBookmark.model.dto.response;
+package com.finp.moic.userBookmark.application.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class UserBookmarkLookupResponseDTO {
+public class UserBookmarkLookupServiceResponse {
 
     private String category;
     private String shopName;
@@ -16,13 +16,13 @@ public class UserBookmarkLookupResponseDTO {
     private double latitude;
     private double longitude;
 
-    public UserBookmarkLookupResponseDTO() {
+    public UserBookmarkLookupServiceResponse() {
     }
 
     @QueryProjection
     @Builder
-    public UserBookmarkLookupResponseDTO(String category, String shopName, String shopLocation,
-                           String address, double latitude, double longitude) {
+    public UserBookmarkLookupServiceResponse(String category, String shopName, String shopLocation,
+                                             String address, double latitude, double longitude) {
         this.category = category;
         this.shopName = shopName;
         this.shopLocation = shopLocation;

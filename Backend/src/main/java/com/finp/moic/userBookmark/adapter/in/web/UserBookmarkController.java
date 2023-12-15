@@ -1,9 +1,9 @@
-package com.finp.moic.userBookmark.controller;
+package com.finp.moic.userBookmark.adapter.in.web;
 
-import com.finp.moic.userBookmark.model.dto.request.UserBookmarkDeleteRequestDTO;
-import com.finp.moic.userBookmark.model.dto.request.UserBookmarkRegistRequestDTO;
-import com.finp.moic.userBookmark.model.dto.response.UserBookmarkLookupResponseDTO;
-import com.finp.moic.userBookmark.model.service.UserBookmarkService;
+import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkDeleteRequest;
+import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkRegistRequest;
+import com.finp.moic.userBookmark.application.response.UserBookmarkLookupServiceResponse;
+import com.finp.moic.userBookmark.application.port.in.UserBookmarkUseCase;
 import com.finp.moic.util.dto.ResponseDTO;
 import com.finp.moic.util.security.dto.UserAuthentication;
 import jakarta.validation.Valid;
@@ -20,18 +20,18 @@ import java.util.List;
 @RequestMapping("/bkm")
 public class UserBookmarkController {
 
-    private final UserBookmarkService userBookmarkService;
+    private final UserBookmarkUseCase userBookmarkUseCase;
 
     @Autowired
-    public UserBookmarkController(UserBookmarkService userBookmarkService) {
-        this.userBookmarkService = userBookmarkService;
+    public UserBookmarkController(UserBookmarkUseCase userBookmarkUseCase) {
+        this.userBookmarkUseCase = userBookmarkUseCase;
     }
 
     @PostMapping("/regist")
-    public ResponseEntity<ResponseDTO> registBookmark(@RequestBody @Valid UserBookmarkRegistRequestDTO userBookmarkRegistRequestDTO,
+    public ResponseEntity<ResponseDTO> registBookmark(@RequestBody @Valid UserBookmarkRegistRequest userBookmarkRegistRequest,
                                                   @AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        userBookmarkService.registBookmark(userBookmarkRegistRequestDTO, userAuthentication.getId());
+        userBookmarkUseCase.registBookmark(userBookmarkRegistRequest, userAuthentication.getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.builder()
                 .message("북마크 등록이 완료되었습니다.")
@@ -39,10 +39,10 @@ public class UserBookmarkController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<ResponseDTO> deleteBookmarkList(@RequestBody @Valid UserBookmarkDeleteRequestDTO userBookmarkDeleteRequestDTO,
+    public ResponseEntity<ResponseDTO> deleteBookmarkList(@RequestBody @Valid UserBookmarkDeleteRequest userBookmarkDeleteRequest,
                                                   @AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        userBookmarkService.deleteBookmarkList(userBookmarkDeleteRequestDTO, userAuthentication.getId());
+        userBookmarkUseCase.deleteBookmarkList(userBookmarkDeleteRequest, userAuthentication.getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.builder()
                 .message("북마크 삭제가 완료되었습니다.")
@@ -52,7 +52,7 @@ public class UserBookmarkController {
     @GetMapping("/lookup")
     public ResponseEntity<ResponseDTO> getBookmarkList(@AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        List<UserBookmarkLookupResponseDTO> dto=userBookmarkService.getBookmarkList(userAuthentication.getId());
+        List<UserBookmarkLookupServiceResponse> dto= userBookmarkUseCase.getBookmarkList(userAuthentication.getId());
         HashMap<String,Object> response=new HashMap<>();
         response.put("shopList",dto);
 

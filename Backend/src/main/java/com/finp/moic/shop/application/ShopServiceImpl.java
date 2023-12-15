@@ -8,7 +8,7 @@ import com.finp.moic.shop.adapter.in.request.ShopRecommandRequest;
 import com.finp.moic.shop.application.port.in.ShopUseCase;
 import com.finp.moic.shop.application.response.*;
 import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
-import com.finp.moic.userBookmark.model.repository.UserBookmarkRepository;
+import com.finp.moic.userBookmark.application.port.out.QueryUserBookmarkPersistencePort;
 import com.finp.moic.util.database.service.CacheRedisService;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.NotFoundException;
@@ -26,7 +26,7 @@ public class ShopServiceImpl implements ShopUseCase {
     private final QueryShopPersistencePort queryShopPersistencePort;
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
     private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
-    private final UserBookmarkRepository userBookmarkRepository;
+    private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
     private final ShopRedisService shopRedisService;
     private final CacheRedisService cacheRedisService;
 
@@ -39,7 +39,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 .findByNameAndLocation(shopName,shopLocation)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
-        if(userBookmarkRepository.exist(userId,shopName,shopLocation)){
+        if(queryUserBookmarkPersistencePort.exist(userId,shopName,shopLocation)){
             dto.setBookmark(true);
         }
 
@@ -79,7 +79,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBenefits(true);
             if(cacheRedisService.existUserGiftShop(dto.get(idx).getShopName(),userId))
                 dto.get(idx).setGifts(true);
-            if(userBookmarkRepository.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())){
+            if(queryUserBookmarkPersistencePort.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())){
                 dto.get(idx).setBookmark(true);
             }
         }
@@ -117,7 +117,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBenefits(true);
             if(cacheRedisService.existUserGiftShop(dto.get(idx).getShopName(),userId))
                 dto.get(idx).setGifts(true);
-            if(userBookmarkRepository.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())) {
+            if(queryUserBookmarkPersistencePort.exist(userId,dto.get(idx).getShopName(),dto.get(idx).getShopLocation())) {
                 dto.get(idx).setBookmark(true);
             }
         }

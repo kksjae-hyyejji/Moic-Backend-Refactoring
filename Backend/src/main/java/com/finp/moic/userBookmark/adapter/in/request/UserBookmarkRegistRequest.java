@@ -1,4 +1,4 @@
-package com.finp.moic.userBookmark.model.dto.request;
+package com.finp.moic.userBookmark.adapter.in.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class UserBookmarkRegistRequestDTO {
+public class UserBookmarkRegistRequest {
 
     @NotBlank
     private String shopName;
@@ -16,11 +16,11 @@ public class UserBookmarkRegistRequestDTO {
     @NotNull
     private String shopLocation;
 
-    public UserBookmarkRegistRequestDTO() {
+    public UserBookmarkRegistRequest() {
     }
 
     @Builder
-    public UserBookmarkRegistRequestDTO(String shopName, String shopLocation) {
+    public UserBookmarkRegistRequest(String shopName, String shopLocation) {
         this.shopName = shopName;
         this.shopLocation = shopLocation;
     }

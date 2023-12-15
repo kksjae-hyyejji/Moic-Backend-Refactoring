@@ -1,4 +1,4 @@
-package com.finp.moic.userBookmark.model.entity;
+package com.finp.moic.userBookmark.domain;
 
 import com.finp.moic.shop.domain.Shop;
 import com.finp.moic.user.model.entity.User;

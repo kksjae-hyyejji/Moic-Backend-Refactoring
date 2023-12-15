@@ -1,15 +1,17 @@
-package com.finp.moic.userBookmark.model.service;
+package com.finp.moic.userBookmark.application;
 
 import com.finp.moic.shop.domain.Shop;
 import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.user.model.repository.UserRepository;
-import com.finp.moic.userBookmark.model.dto.request.ShopRequestDTO;
-import com.finp.moic.userBookmark.model.dto.request.UserBookmarkDeleteRequestDTO;
-import com.finp.moic.userBookmark.model.dto.request.UserBookmarkRegistRequestDTO;
-import com.finp.moic.userBookmark.model.dto.response.UserBookmarkLookupResponseDTO;
-import com.finp.moic.userBookmark.model.entity.UserBookmark;
-import com.finp.moic.userBookmark.model.repository.UserBookmarkRepository;
+import com.finp.moic.userBookmark.adapter.in.request.ShopRequest;
+import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkDeleteRequest;
+import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkRegistRequest;
+import com.finp.moic.userBookmark.application.port.out.CommandUserBookmarkPersistencePort;
+import com.finp.moic.userBookmark.application.port.out.QueryUserBookmarkPersistencePort;
+import com.finp.moic.userBookmark.application.response.UserBookmarkLookupServiceResponse;
+import com.finp.moic.userBookmark.domain.UserBookmark;
+import com.finp.moic.userBookmark.application.port.in.UserBookmarkUseCase;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.AlreadyExistException;
 import com.finp.moic.util.exception.list.NotFoundException;
@@ -20,33 +22,34 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserBookmarkServiceImpl implements UserBookmarkService{
+public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
 
-    private final UserBookmarkRepository userBookmarkRepository;
+    private final CommandUserBookmarkPersistencePort commandUserBookmarkPersistencePort;
+    private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
     private final UserRepository userRepository;
     private final QueryShopPersistencePort queryShopPersistencePort;
 
     @Override
-    public void registBookmark(UserBookmarkRegistRequestDTO userBookmarkRegistRequestDTO, String userId) {
+    public void registBookmark(UserBookmarkRegistRequest userBookmarkRegistRequest, String userId) {
 
         /**
          * TO DO :: SOFT DELETE 확인해, 존재 시 회복하기
          * */
 
         /*** RDB Access ***/
-        Shop shop=queryShopPersistencePort.findEntityByNameAndLocation(userBookmarkRegistRequestDTO.getShopName(),userBookmarkRegistRequestDTO.getShopLocation())
+        Shop shop=queryShopPersistencePort.findEntityByNameAndLocation(userBookmarkRegistRequest.getShopName(), userBookmarkRegistRequest.getShopLocation())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
         User user=userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** Validation ***/
         /* 혜지 : 한 사용자에 대해 중복된 북마크 등록 불가 */
-        if(userBookmarkRepository.exist(user.getId(),shop.getName(),shop.getLocation()))
+        if(queryUserBookmarkPersistencePort.exist(user.getId(),shop.getName(),shop.getLocation()))
             throw new AlreadyExistException(ExceptionEnum.BOOKMARK_REGIST_DUPLICATE);
 
         /*** RDB Access ***/
         /* 혜지 : userBookmarkSeq 등의 기본 데이터셋 저장 */
-        UserBookmark userBookmark=userBookmarkRepository.save(UserBookmark.builder()
+        UserBookmark userBookmark=commandUserBookmarkPersistencePort.save(UserBookmark.builder()
                 .build());
 
         /*** Entity Builder ***/
@@ -58,34 +61,34 @@ public class UserBookmarkServiceImpl implements UserBookmarkService{
 
         /*** RDB Access ***/
         /* 혜지 : userBookmark FK 저장 */
-        userBookmarkRepository.save(userBookmark);
+        commandUserBookmarkPersistencePort.save(userBookmark);
 
     }
 
     @Override
-    public void deleteBookmarkList(UserBookmarkDeleteRequestDTO userBookmarkDeleteRequestDTO, String userId) {
+    public void deleteBookmarkList(UserBookmarkDeleteRequest userBookmarkDeleteRequest, String userId) {
 
         /*** Validation ***/
         User user=userRepository.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** RDB Access ***/
-        for(ShopRequestDTO shopDTO:userBookmarkDeleteRequestDTO.getShopList()){
+        for(ShopRequest shopDTO: userBookmarkDeleteRequest.getShopList()){
             Long shopSeq=queryShopPersistencePort.findSeqByNameAndLocation(shopDTO.getShopName(),shopDTO.getShopLocation())
                     .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
-            UserBookmark userBookmark=userBookmarkRepository.findByUserIdAndShopSeq(user.getId(),shopSeq)
+            UserBookmark userBookmark=queryUserBookmarkPersistencePort.findByUserIdAndShopSeq(user.getId(),shopSeq)
                     .orElseThrow(()->new NotFoundException(ExceptionEnum.BOOKMARK_DELETE_ERROR));
-            userBookmarkRepository.delete(userBookmark);
+            commandUserBookmarkPersistencePort.delete(userBookmark);
         }
 
     }
 
     @Override
-    public List<UserBookmarkLookupResponseDTO> getBookmarkList(String userId) {
+    public List<UserBookmarkLookupServiceResponse> getBookmarkList(String userId) {
 
         /*** RDB Access ***/
-        List<UserBookmarkLookupResponseDTO> dto=userBookmarkRepository.findAllByUserId(userId);
+        List<UserBookmarkLookupServiceResponse> dto=queryUserBookmarkPersistencePort.findAllByUserId(userId);
 
         return dto;
     }
