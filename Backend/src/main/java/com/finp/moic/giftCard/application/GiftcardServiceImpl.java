@@ -1,19 +1,17 @@
 package com.finp.moic.giftCard.application;
 
 import com.finp.moic.giftCard.application.port.in.GiftcardUseCase;
-import com.finp.moic.giftCard.application.port.out.CommandGiftcardBrandPersistencePort;
-import com.finp.moic.giftCard.application.port.out.QueryGiftcardBrandPersistencePort;
+import com.finp.moic.giftCard.application.port.out.*;
+import com.finp.moic.giftCard.application.port.out.external.ChatGptPort;
+import com.finp.moic.giftCard.application.port.out.external.NaverOcrPort;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.Giftcard;
 import com.finp.moic.giftCard.application.response.GiftcardBrandServiceResponse;
-import com.finp.moic.giftCard.application.port.out.CommandGiftcardPersistencePort;
-import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
 import com.finp.moic.user.model.entity.User;
 import com.finp.moic.user.model.repository.UserRepository;
 import com.finp.moic.util.exception.list.DeniedException;
-import com.finp.moic.util.service.ChatGptService;
-import com.finp.moic.util.service.NaverOcrService;
-import com.finp.moic.util.database.service.S3Service;
+import com.finp.moic.giftCard.adapter.out.external.ChatGptAdapater;
+import com.finp.moic.giftCard.adapter.out.external.NaverOcrAdapater;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +28,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GiftcardServiceImpl implements GiftcardUseCase {
 
-    private final S3Service s3Service;
-    private final NaverOcrService naverOcrService;
-    private final ChatGptService chatGptService;
+    private final CommandImageS3Port commandImageS3Port;
+    private final NaverOcrPort naverOcrPort;
+    private final ChatGptPort chatGptPort;
     private final UserRepository userRepository;
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
     private final QueryGiftcardBrandPersistencePort queryGiftcardBrandPersistencePort;
@@ -43,12 +41,12 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
     @CacheEvict(value="giftcardList", key="#id")
     public void regist (String id, MultipartFile multipartFile){
 
-        String filePath = s3Service.uploadFile(multipartFile);
+        String filePath = commandImageS3Port.uploadFile(multipartFile);
         String originalName = multipartFile.getOriginalFilename();
         List<String> texts =
-                naverOcrService.naverOcrApi(filePath, originalName.substring(originalName.lastIndexOf(".") + 1));
+                naverOcrPort.naverOcrApi(filePath, originalName.substring(originalName.lastIndexOf(".") + 1));
 
-        String content = chatGptService.response(texts);
+        String content = chatGptPort.response(texts);
 
         String[] lines = content.split("\n");
         String shopName= parseShopName(lines[0]);
@@ -98,7 +96,7 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
 
         Giftcard giftcard = queryGiftcardPersistencePort.findByImageUrl(imageUrl)
                 .orElseThrow(() -> new NotFoundException(ExceptionEnum.GIFTCARD_NOT_FOUND));
-        s3Service.deleteGiftcard(imageUrl);
+        commandImageS3Port.deleteGiftcard(imageUrl);
         commandGiftcardPersistencePort.delete(giftcard);
 
     }

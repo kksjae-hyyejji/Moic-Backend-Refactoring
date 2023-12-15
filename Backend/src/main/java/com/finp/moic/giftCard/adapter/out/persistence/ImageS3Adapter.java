@@ -1,4 +1,4 @@
-package com.finp.moic.util.database.service;
+package com.finp.moic.giftCard.adapter.out.persistence;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class S3Service {
+public class ImageS3Adapter implements com.finp.moic.giftCard.application.port.out.CommandImageS3Port {
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Autowired
-    public S3Service(AmazonS3Client amazonS3Client) {
+    public ImageS3Adapter(AmazonS3Client amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
     }
 

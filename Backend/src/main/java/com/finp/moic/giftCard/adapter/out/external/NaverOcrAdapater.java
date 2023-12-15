@@ -1,4 +1,4 @@
-package com.finp.moic.util.service;
+package com.finp.moic.giftCard.adapter.out.external;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,16 +12,17 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finp.moic.giftCard.application.port.out.external.NaverOcrPort;
 import com.finp.moic.util.exception.BusinessException;
 import com.finp.moic.util.exception.ExceptionEnum;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class NaverOcrService {
+@Component
+public class NaverOcrAdapater implements NaverOcrPort {
 
     @Value("${OCR_APIURL}")
     private String apiURL;
@@ -83,7 +84,7 @@ public class NaverOcrService {
         return parseData;
     }
 
-    public List<String> jsonParse(StringBuffer response) throws ParseException {
+    public List<String> jsonParse(StringBuffer response) {
 
             List<String> inferTextList = new ArrayList<>();
 
