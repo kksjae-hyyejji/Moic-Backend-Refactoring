@@ -5,7 +5,7 @@ import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkRegistRequest;
 import com.finp.moic.userBookmark.application.response.UserBookmarkLookupServiceResponse;
 import com.finp.moic.userBookmark.application.port.in.UserBookmarkUseCase;
 import com.finp.moic.util.dto.ResponseDTO;
-import com.finp.moic.util.security.dto.UserAuthentication;
+import com.finp.moic.user.security.dto.UserAuthentication;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

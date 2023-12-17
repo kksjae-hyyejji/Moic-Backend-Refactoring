@@ -48,7 +48,7 @@ public class QGiftcard extends EntityPathBase<Giftcard> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final com.finp.moic.user.model.entity.QUser user;
+    public final com.finp.moic.user.domain.QUser user;
 
     public QGiftcard(String variable) {
         this(Giftcard.class, forVariable(variable), INITS);
@@ -68,7 +68,7 @@ public class QGiftcard extends EntityPathBase<Giftcard> {
 
     public QGiftcard(Class<? extends Giftcard> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new com.finp.moic.user.model.entity.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.finp.moic.user.domain.QUser(forProperty("user")) : null;
     }
 
 }

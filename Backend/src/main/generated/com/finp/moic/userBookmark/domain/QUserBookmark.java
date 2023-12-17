@@ -38,7 +38,7 @@ public class QUserBookmark extends EntityPathBase<UserBookmark> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final com.finp.moic.user.model.entity.QUser user;
+    public final com.finp.moic.user.domain.QUser user;
 
     public final NumberPath<Long> userBookmarkSeq = createNumber("userBookmarkSeq", Long.class);
 
@@ -61,7 +61,7 @@ public class QUserBookmark extends EntityPathBase<UserBookmark> {
     public QUserBookmark(Class<? extends UserBookmark> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.shop = inits.isInitialized("shop") ? new com.finp.moic.shop.domain.QShop(forProperty("shop")) : null;
-        this.user = inits.isInitialized("user") ? new com.finp.moic.user.model.entity.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.finp.moic.user.domain.QUser(forProperty("user")) : null;
     }
 
 }

@@ -38,7 +38,7 @@ public class QUserCard extends EntityPathBase<UserCard> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final com.finp.moic.user.model.entity.QUser user;
+    public final com.finp.moic.user.domain.QUser user;
 
     public final NumberPath<Long> userCardSeq = createNumber("userCardSeq", Long.class);
 
@@ -61,7 +61,7 @@ public class QUserCard extends EntityPathBase<UserCard> {
     public QUserCard(Class<? extends UserCard> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.card = inits.isInitialized("card") ? new QCard(forProperty("card")) : null;
-        this.user = inits.isInitialized("user") ? new com.finp.moic.user.model.entity.QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.finp.moic.user.domain.QUser(forProperty("user")) : null;
     }
 
 }

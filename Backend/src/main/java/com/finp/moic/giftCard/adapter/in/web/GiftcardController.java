@@ -5,7 +5,7 @@ import com.finp.moic.giftCard.application.port.in.GiftcardUseCase;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.adapter.out.persistence.ImageS3Adapter;
 import com.finp.moic.util.dto.ResponseDTO;
-import com.finp.moic.util.security.dto.UserAuthentication;
+import com.finp.moic.user.security.dto.UserAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
