@@ -16,8 +16,8 @@ public class ShopRecommandResponse {
     private String address;
     private double x;
     private double y;
-    private List<BenefitResponse> benefits;
-    private List<GiftResponse> gifts;
+    private List<ShopCardBenefitResponseInShopDetailResponse> benefits;
+    private List<ShopGiftCardResponseInShopDetailResponse> gifts;
 
     public ShopRecommandResponse() {
     }
@@ -33,11 +33,11 @@ public class ShopRecommandResponse {
         this.y = y;
     }
 
-    public void setBenefits(List<BenefitResponse> benefits) {
+    public void setBenefits(List<ShopCardBenefitResponseInShopDetailResponse> benefits) {
         this.benefits = benefits;
     }
 
-    public void setGifts(List<GiftResponse> gifts) {
+    public void setGifts(List<ShopGiftCardResponseInShopDetailResponse> gifts) {
         this.gifts = gifts;
     }
 }

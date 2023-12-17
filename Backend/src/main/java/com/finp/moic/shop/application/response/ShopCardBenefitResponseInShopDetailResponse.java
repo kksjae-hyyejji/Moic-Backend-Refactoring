@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class BenefitResponse {
+public class ShopCardBenefitResponseInShopDetailResponse {
 
     private String cardName;
     private String cardImage;
@@ -16,13 +16,13 @@ public class BenefitResponse {
     private String point;
     private String cashBack;
 
-    public BenefitResponse() {
+    public ShopCardBenefitResponseInShopDetailResponse() {
     }
 
     @QueryProjection
     @Builder
-    public BenefitResponse(String cardName, String cardImage, String content,
-                           String discount, String point, String cashBack) {
+    public ShopCardBenefitResponseInShopDetailResponse(String cardName, String cardImage, String content,
+                                                       String discount, String point, String cashBack) {
         this.cardName = cardName;
         this.cardImage = cardImage;
         this.content = content;

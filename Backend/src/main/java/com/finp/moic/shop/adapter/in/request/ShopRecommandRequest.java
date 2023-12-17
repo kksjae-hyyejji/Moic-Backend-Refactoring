@@ -19,14 +19,14 @@ public class ShopRecommandRequest {
     private double longitude;
 
     @NotNull
-    private List<CategoryRequest> categoryList;
+    private List<ShopCategoryRequestInShopRecommandRequest> categoryList;
 
     public ShopRecommandRequest() {
     }
 
     @Builder
     public ShopRecommandRequest(double latitude, double longitude,
-                                @NotNull List<CategoryRequest> categoryList) {
+                                @NotNull List<ShopCategoryRequestInShopRecommandRequest> categoryList) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.categoryList = categoryList;

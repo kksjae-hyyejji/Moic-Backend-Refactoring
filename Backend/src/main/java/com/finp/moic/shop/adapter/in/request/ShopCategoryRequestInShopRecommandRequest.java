@@ -6,16 +6,16 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class CategoryRequest {
+public class ShopCategoryRequestInShopRecommandRequest {
 
     private String mainCategory;
     private String subCategory;
 
-    public CategoryRequest() {
+    public ShopCategoryRequestInShopRecommandRequest() {
     }
 
     @Builder
-    public CategoryRequest(String mainCategory, String subCategory) {
+    public ShopCategoryRequestInShopRecommandRequest(String mainCategory, String subCategory) {
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
     }

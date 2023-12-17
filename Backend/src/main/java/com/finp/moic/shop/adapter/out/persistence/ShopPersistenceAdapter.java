@@ -17,8 +17,8 @@ public class ShopPersistenceAdapter implements QueryShopPersistencePort {
     private final ShopQuerydslRepository shopQuerydslRepository;
 
     @Override
-    public Optional<Shop> findEntityByNameAndLocation(String shopName, String shopLocation) {
-        return shopJpaRepository.findEntityByNameAndLocation(shopName,shopLocation);
+    public Optional<Shop> findShopByNameAndLocation(String shopName, String shopLocation) {
+        return shopJpaRepository.findByNameAndLocation(shopName,shopLocation);
     }
 
     @Override
@@ -27,27 +27,27 @@ public class ShopPersistenceAdapter implements QueryShopPersistencePort {
     }
 
     @Override
-    public Optional<ShopDetailResponse> findByNameAndLocation(String shopName, String shopLocation) {
+    public Optional<ShopDetailResponse> findShopDetailDTOByNameAndLocation(String shopName, String shopLocation) {
         return shopQuerydslRepository.findByNameAndLocation(shopName,shopLocation);
     }
 
     @Override
     public String findShopNameByKeyword(String keyword) {
-        return shopQuerydslRepository.findShopNameByKeyword(keyword);
+        return shopQuerydslRepository.findByKeyword(keyword);
     }
 
     @Override
-    public List<String> findAllShopNameByCategory(String category) {
-        return shopQuerydslRepository.findAllShopNameByCategory(category);
+    public List<String> findShopNameListByCategory(String category) {
+        return shopQuerydslRepository.findAllByCategory(category);
     }
 
     @Override
-    public List<String> findAllShopNameByMainCategoryAndSubCategory(String mainCategory, String subCategory) {
-        return shopQuerydslRepository.findAllShopNameByMainCategoryAndSubCategory(mainCategory,subCategory);
+    public List<String> findShopNameListByMainCategoryAndSubCategory(String mainCategory, String subCategory) {
+        return shopQuerydslRepository.findAllByMainCategoryAndSubCategory(mainCategory,subCategory);
     }
 
     @Override
-    public Optional<Long> findSeqByNameAndLocation(String shopName, String shopLocation) {
-        return shopQuerydslRepository.findSeqByNameAndLocation(shopName,shopLocation);
+    public Optional<Long> findShopSeqByNameAndLocation(String shopName, String shopLocation) {
+        return shopQuerydslRepository.findIdByNameAndLocation(shopName,shopLocation);
     }
 }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @RedisHash
-public class ShopGeoRedisReponse implements Serializable {
+public class ShopGeoRedisResponse implements Serializable {
 
     private String mainCategory;
     private String category;
@@ -23,13 +23,13 @@ public class ShopGeoRedisReponse implements Serializable {
     private double latitude;
     private double longitude;
 
-    public ShopGeoRedisReponse() {
+    public ShopGeoRedisResponse() {
     }
 
     @Builder
-    public ShopGeoRedisReponse(String mainCategory, String category,
-                               String location, String address, String guName,
-                               double latitude, double longitude) {
+    public ShopGeoRedisResponse(String mainCategory, String category,
+                                String location, String address, String guName,
+                                double latitude, double longitude) {
         this.mainCategory = mainCategory;
         this.category = category;
         this.location = location;
@@ -39,8 +39,8 @@ public class ShopGeoRedisReponse implements Serializable {
         this.longitude = longitude;
     }
 
-    public static ShopGeoRedisReponse fromJson(String json) throws JsonProcessingException {
+    public static ShopGeoRedisResponse fromJson(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, ShopGeoRedisReponse.class);
+        return objectMapper.readValue(json, ShopGeoRedisResponse.class);
     }
 }

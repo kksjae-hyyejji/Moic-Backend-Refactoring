@@ -11,7 +11,8 @@ import java.util.Optional;
 @Repository
 public interface ShopJpaRepository extends JpaRepository<Shop,Long> {
 
+    /** 북마크 등록 시의 shop 조회 쿼리 **/
     @Query(value = "SELECT * FROM shop WHERE name=:shopName AND location=:shopLocation", nativeQuery = true)
-    Optional<Shop> findEntityByNameAndLocation(@Param("shopName") String shopName, @Param("shopLocation") String shopLocation);
+    Optional<Shop> findByNameAndLocation(@Param("shopName") String shopName, @Param("shopLocation") String shopLocation);
 
 }

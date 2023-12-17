@@ -17,7 +17,7 @@ public class ShopQuerydslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public Boolean exist(String shopName){
-        QShop shop=QShop.shop;
+        QShop shop= QShop.shop;
 
         Integer fetchOne = jpaQueryFactory
                 .selectOne()
@@ -29,7 +29,7 @@ public class ShopQuerydslRepository {
     }
 
     public Optional<ShopDetailResponse> findByNameAndLocation(String shopName, String shopLocation) {
-        QShop shop=QShop.shop;
+        QShop shop= QShop.shop;
 
         return Optional.ofNullable(jpaQueryFactory
                 .select(
@@ -51,8 +51,8 @@ public class ShopQuerydslRepository {
     /**
      * CONFIRM :: 한 키워드에 대해 다양한 가맹점이 있다면?
      **/
-    public String findShopNameByKeyword(String keyword) {
-        QShop shop=QShop.shop;
+    public String findByKeyword(String keyword) {
+        QShop shop= QShop.shop;
 
         return jpaQueryFactory
                 .select(shop.name)
@@ -61,8 +61,8 @@ public class ShopQuerydslRepository {
                 .fetchFirst();
     }
 
-    public List<String> findAllShopNameByCategory(String category) {
-        QShop shop=QShop.shop;
+    public List<String> findAllByCategory(String category) {
+        QShop shop= QShop.shop;
 
         return jpaQueryFactory
                 .selectDistinct(shop.name)
@@ -74,8 +74,8 @@ public class ShopQuerydslRepository {
                 .fetch();
     }
 
-    public List<String> findAllShopNameByMainCategoryAndSubCategory(String mainCategory, String subCategory) {
-        QShop shop=QShop.shop;
+    public List<String> findAllByMainCategoryAndSubCategory(String mainCategory, String subCategory) {
+        QShop shop= QShop.shop;
 
         return jpaQueryFactory
                 .selectDistinct(shop.name)
@@ -87,8 +87,8 @@ public class ShopQuerydslRepository {
                 .fetch();
     }
 
-    public Optional<Long> findSeqByNameAndLocation(String shopName, String shopLocation) {
-        QShop shop=QShop.shop;
+    public Optional<Long> findIdByNameAndLocation(String shopName, String shopLocation) {
+        QShop shop= QShop.shop;
 
         return Optional.ofNullable(jpaQueryFactory
                 .select(shop.shopSeq)

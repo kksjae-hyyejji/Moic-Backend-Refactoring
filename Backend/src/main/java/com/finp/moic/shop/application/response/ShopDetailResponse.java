@@ -16,8 +16,8 @@ public class ShopDetailResponse {
     private String shopLocation;
     private String address;
     private boolean bookmark;
-    private List<BenefitResponse> benefits;
-    private List<GiftResponse> gifts;
+    private List<ShopCardBenefitResponseInShopDetailResponse> benefits;
+    private List<ShopGiftCardResponseInShopDetailResponse> gifts;
 
     public ShopDetailResponse() {
     }
@@ -35,11 +35,11 @@ public class ShopDetailResponse {
 
     public void setBookmark(boolean bookmark) { this.bookmark = bookmark; }
 
-    public void setBenefits(List<BenefitResponse> benefits){
+    public void setBenefits(List<ShopCardBenefitResponseInShopDetailResponse> benefits){
         this.benefits=benefits;
     }
 
-    public void setGifts(List<GiftResponse> gifts){
+    public void setGifts(List<ShopGiftCardResponseInShopDetailResponse> gifts){
         this.gifts=gifts;
     }
 }
