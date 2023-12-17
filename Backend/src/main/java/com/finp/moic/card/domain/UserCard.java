@@ -1,6 +1,6 @@
 package com.finp.moic.card.domain;
 
-import com.finp.moic.user.model.entity.User;
+import com.finp.moic.user.domain.User;
 import com.finp.moic.util.entity.Base;
 import jakarta.persistence.*;
 import lombok.*;

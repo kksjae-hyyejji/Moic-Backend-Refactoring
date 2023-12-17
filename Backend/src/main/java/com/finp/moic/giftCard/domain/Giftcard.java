@@ -1,6 +1,6 @@
 package com.finp.moic.giftCard.domain;
 
-import com.finp.moic.user.model.entity.User;
+import com.finp.moic.user.domain.User;
 import com.finp.moic.util.entity.Base;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(name="giftcard")

@@ -11,8 +11,8 @@ import com.finp.moic.card.application.response.*;
 import com.finp.moic.card.domain.Card;
 import com.finp.moic.card.domain.UserCard;
 import com.finp.moic.card.application.port.in.CardUseCase;
-import com.finp.moic.user.model.entity.User;
-import com.finp.moic.user.model.repository.UserRepository;
+import com.finp.moic.user.domain.User;
+import com.finp.moic.user.adpater.out.persistence.UserJpaRepository;
 import com.finp.moic.util.database.service.CacheRedisService;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.AlreadyExistException;
@@ -30,7 +30,7 @@ public class CardServiceImpl implements CardUseCase {
 
     private final QueryCardPersistencePort queryCardPersistencePort;
     private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
-    private final UserRepository userRepository;
+    private final UserJpaRepository commandUserPersistencePort;
     private final CommandUserCardPersistencePort commandUserCardPersistencePort;
     private final QueryUserCardPersistencePort queryUserCardPersistencePort;
     private final CacheRedisService cacheRedisService;
@@ -56,7 +56,7 @@ public class CardServiceImpl implements CardUseCase {
         /*** RDB Access ***/
         Card card= queryCardPersistencePort.findByName(cardRegistRequest.getCardName())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.CARD_NOT_FOUND));
-        User user=userRepository.findById(userId)
+        User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** Validation ***/
@@ -131,7 +131,7 @@ public class CardServiceImpl implements CardUseCase {
     public void deleteCard(CardDeleteRequest cardDeleteRequest, String userId) {
 
         /*** Validation ***/
-        User user=userRepository.findById(userId)
+        User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
         UserCard userCard= queryUserCardPersistencePort.findByUserIdAndCardName(userId, cardDeleteRequest.getCardName())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.CARD_USER_NOT_FOUND));
@@ -175,7 +175,7 @@ public class CardServiceImpl implements CardUseCase {
     public List<CardServiceResponse> searchCard(String company, String type, String cardName, String userId) {
 
         /*** Validation ***/
-        User user=userRepository.findById(userId)
+        User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** RDB Access ***/

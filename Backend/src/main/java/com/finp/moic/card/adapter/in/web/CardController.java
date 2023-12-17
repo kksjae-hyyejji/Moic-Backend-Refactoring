@@ -8,7 +8,7 @@ import com.finp.moic.card.application.response.CardMineServiceResponse;
 import com.finp.moic.card.application.response.CardServiceResponse;
 import com.finp.moic.card.application.port.in.CardUseCase;
 import com.finp.moic.util.dto.ResponseDTO;
-import com.finp.moic.util.security.dto.UserAuthentication;
+import com.finp.moic.user.security.dto.UserAuthentication;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

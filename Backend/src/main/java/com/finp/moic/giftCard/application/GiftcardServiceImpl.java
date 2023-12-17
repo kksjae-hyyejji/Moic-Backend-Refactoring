@@ -7,11 +7,9 @@ import com.finp.moic.giftCard.application.port.out.external.NaverOcrPort;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.Giftcard;
 import com.finp.moic.giftCard.application.response.GiftcardBrandServiceResponse;
-import com.finp.moic.user.model.entity.User;
-import com.finp.moic.user.model.repository.UserRepository;
+import com.finp.moic.user.domain.User;
+import com.finp.moic.user.adpater.out.persistence.UserJpaRepository;
 import com.finp.moic.util.exception.list.DeniedException;
-import com.finp.moic.giftCard.adapter.out.external.ChatGptAdapater;
-import com.finp.moic.giftCard.adapter.out.external.NaverOcrAdapater;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,7 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
     private final CommandImageS3Port commandImageS3Port;
     private final NaverOcrPort naverOcrPort;
     private final ChatGptPort chatGptPort;
-    private final UserRepository userRepository;
+    private final UserJpaRepository commandUserPersistencePort;
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
     private final QueryGiftcardBrandPersistencePort queryGiftcardBrandPersistencePort;
     private final CommandGiftcardPersistencePort commandGiftcardPersistencePort;
@@ -52,7 +50,7 @@ public class GiftcardServiceImpl implements GiftcardUseCase {
         String shopName= parseShopName(lines[0]);
         LocalDate localDate = parseLocalDate(lines[1]);
 
-        User user = userRepository.findById(id)
+        User user = commandUserPersistencePort.findById(id)
                 .orElseThrow(()-> new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
 

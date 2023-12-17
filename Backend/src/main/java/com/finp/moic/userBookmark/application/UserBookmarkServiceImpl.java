@@ -2,8 +2,8 @@ package com.finp.moic.userBookmark.application;
 
 import com.finp.moic.shop.domain.Shop;
 import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
-import com.finp.moic.user.model.entity.User;
-import com.finp.moic.user.model.repository.UserRepository;
+import com.finp.moic.user.domain.User;
+import com.finp.moic.user.adpater.out.persistence.UserJpaRepository;
 import com.finp.moic.userBookmark.adapter.in.request.ShopRequest;
 import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkDeleteRequest;
 import com.finp.moic.userBookmark.adapter.in.request.UserBookmarkRegistRequest;
@@ -26,7 +26,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
 
     private final CommandUserBookmarkPersistencePort commandUserBookmarkPersistencePort;
     private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
-    private final UserRepository userRepository;
+    private final UserJpaRepository commandUserPersistencePort;
     private final QueryShopPersistencePort queryShopPersistencePort;
 
     @Override
@@ -39,7 +39,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
         /*** RDB Access ***/
         Shop shop=queryShopPersistencePort.findEntityByNameAndLocation(userBookmarkRegistRequest.getShopName(), userBookmarkRegistRequest.getShopLocation())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
-        User user=userRepository.findById(userId)
+        User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** Validation ***/
@@ -69,7 +69,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
     public void deleteBookmarkList(UserBookmarkDeleteRequest userBookmarkDeleteRequest, String userId) {
 
         /*** Validation ***/
-        User user=userRepository.findById(userId)
+        User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
         /*** RDB Access ***/
