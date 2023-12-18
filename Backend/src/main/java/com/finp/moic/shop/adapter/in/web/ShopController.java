@@ -2,10 +2,12 @@ package com.finp.moic.shop.adapter.in.web;
 
 import com.finp.moic.shop.adapter.in.request.ShopDetailRequest;
 import com.finp.moic.shop.adapter.in.request.ShopRecommandRequest;
+import com.finp.moic.shop.application.port.in.DetailShopUseCase;
+import com.finp.moic.shop.application.port.in.RecommandShopListUseCase;
+import com.finp.moic.shop.application.port.in.SearchShopListUseCase;
 import com.finp.moic.shop.application.response.ShopDetailResponse;
 import com.finp.moic.shop.application.response.ShopRecommandResponse;
 import com.finp.moic.shop.application.response.ShopSearchResponse;
-import com.finp.moic.shop.application.port.in.ShopUseCase;
 import com.finp.moic.util.dto.ResponseDTO;
 import com.finp.moic.user.security.dto.UserAuthentication;
 import jakarta.validation.Valid;
@@ -27,7 +29,10 @@ import java.util.List;
 @Validated
 public class ShopController {
 
-    private final ShopUseCase shopUseCase;
+    private final DetailShopUseCase detailShopUseCase;
+    private final SearchShopListUseCase searchShopListUseCase;
+    private final RecommandShopListUseCase recommandShopListUseCase;
+
 
     /** 가맹점 상세 조회 API **/
     @GetMapping("/map/shops/detail")
@@ -36,7 +41,7 @@ public class ShopController {
                                                   @AuthenticationPrincipal UserAuthentication userAuthentication){
 
         ShopDetailRequest request= new ShopDetailRequest(shopName, shopLocation);
-        ShopDetailResponse response= shopUseCase.detailShop(request, userAuthentication.getId());
+        ShopDetailResponse response= detailShopUseCase.detailShop(request, userAuthentication.getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDTO.builder()
                 .message("내 카드혜택, 기프티콘 가맹점 상세 조회")
@@ -51,7 +56,7 @@ public class ShopController {
                                                   @RequestParam("longitude") @Positive double longitude,
                                                     @AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        List<ShopSearchResponse> dto= shopUseCase.searchShopListByKeyword(keyword, latitude, longitude, userAuthentication.getId());
+        List<ShopSearchResponse> dto= searchShopListUseCase.searchShopListByKeyword(keyword, latitude, longitude, userAuthentication.getId());
         HashMap<String, Object> response= new HashMap<>();
         response.put("shopList", dto);
 
@@ -68,7 +73,7 @@ public class ShopController {
                                                              @RequestParam("longitude") @Positive double longitude,
                                                                 @AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        List<ShopSearchResponse> dto= shopUseCase.searchShopListByCategory(category, latitude, longitude, userAuthentication.getId());
+        List<ShopSearchResponse> dto= searchShopListUseCase.searchShopListByCategory(category, latitude, longitude, userAuthentication.getId());
         HashMap<String,Object> response= new HashMap<>();
         response.put("shopList", dto);
 
@@ -83,7 +88,7 @@ public class ShopController {
     public ResponseEntity<ResponseDTO> recommandShopList(@Valid @RequestBody ShopRecommandRequest shopRecommandRequest,
                                                              @AuthenticationPrincipal UserAuthentication userAuthentication){
 
-        List<ShopRecommandResponse> dto= shopUseCase.recommandShopList(shopRecommandRequest, userAuthentication.getId());
+        List<ShopRecommandResponse> dto= recommandShopListUseCase.recommandShopList(shopRecommandRequest, userAuthentication.getId());
         HashMap<String,Object> response= new HashMap<>();
         response.put("shopList", dto);
 
