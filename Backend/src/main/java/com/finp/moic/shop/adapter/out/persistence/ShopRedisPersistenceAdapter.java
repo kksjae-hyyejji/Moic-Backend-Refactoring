@@ -9,6 +9,8 @@ import com.finp.moic.shop.application.response.ShopGeoRedisResponse;
 import com.finp.moic.util.exception.ExceptionEnum;
 import com.finp.moic.util.exception.list.DeniedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.GeoOperations;
@@ -20,11 +22,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@RequiredArgsConstructor
 public class ShopRedisPersistenceAdapter implements RedisShopPersistencePort {
 
     private final RedisTemplate<String, Object> mainRedis;
     private final GeoOperations<String, Object> geoOperations;
+
+    @Autowired
+    public ShopRedisPersistenceAdapter(@Qualifier("MainRedis") RedisTemplate<String, Object> mainRedis) {
+        this.mainRedis = mainRedis;
+        this.geoOperations = mainRedis.opsForGeo();
+    }
 
     /**
      * 가맹점별 위치와 정보 저장 (Redis가 날아갔을 경우 대비 -> 되도록 쓰지 말기)
