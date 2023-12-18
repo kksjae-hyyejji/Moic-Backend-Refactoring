@@ -36,37 +36,40 @@ public class RegistGiftcardService implements RegistGiftcardUseCase {
     @Override
     @CacheEvict(value="giftcardList", key="#id")
     public void regist (String id, MultipartFile multipartFile){
-
         String filePath = commandImageS3Port.uploadFile(multipartFile);
-        String originalName = multipartFile.getOriginalFilename();
-        List<String> texts =
-                naverOcrPort.naverOcrApi(filePath, originalName.substring(originalName.lastIndexOf(".") + 1));
+        try {
+            String originalName = multipartFile.getOriginalFilename();
+            List<String> texts =
+                    naverOcrPort.naverOcrApi(filePath, originalName.substring(originalName.lastIndexOf(".") + 1));
 
-        String content = chatGptPort.response(texts);
+            String content = chatGptPort.response(texts);
 
-        String[] lines = content.split("\n");
-        String shopName= parseShopName(lines[0]);
-        LocalDate localDate = parseLocalDate(lines[1]);
+            String[] lines = content.split("\n");
+            String shopName = parseShopName(lines[0]);
+            LocalDate localDate = parseLocalDate(lines[1]);
 
-        User user = queryUserPersistencePort.findById(id)
-                .orElseThrow(()-> new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
+            User user = queryUserPersistencePort.findById(id)
+                    .orElseThrow(() -> new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
 
 
-        GiftcardBrandServiceResponse categoryDTO= queryGiftcardBrandPersistencePort.findByName(shopName);
-        if(categoryDTO==null){
-            throw new DeniedException(ExceptionEnum.GIFTCATD_REGIST_ERROR);
+            GiftcardBrandServiceResponse categoryDTO = queryGiftcardBrandPersistencePort.findByName(shopName);
+            if (categoryDTO == null) {
+                throw new DeniedException(ExceptionEnum.GIFTCATD_REGIST_ERROR);
+            }
+
+            Giftcard giftcard = Giftcard.builder()
+                    .user(user)
+                    .mainCategory(categoryDTO.getMainCategory())
+                    .category(categoryDTO.getCategory())
+                    .shopName(shopName)
+                    .imageUrl(filePath)
+                    .dueDate(localDate)
+                    .build();
+
+            commandGiftcardPersistencePort.save(giftcard);
+        } catch (Exception e) {
+            commandImageS3Port.deleteGiftcard(filePath);
         }
-
-        Giftcard giftcard = Giftcard.builder()
-                .user(user)
-                .mainCategory(categoryDTO.getMainCategory())
-                .category(categoryDTO.getCategory())
-                .shopName(shopName)
-                .imageUrl(filePath)
-                .dueDate(localDate)
-                .build();
-
-        commandGiftcardPersistencePort.save(giftcard);
 
     }
 
