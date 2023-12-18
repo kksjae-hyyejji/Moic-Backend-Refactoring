@@ -3,9 +3,11 @@ package com.finp.moic.shop.application;
 import com.finp.moic.card.application.port.out.QueryCardBenefitPersistencePort;
 import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
 
-import com.finp.moic.shop.adapter.in.request.CategoryRequest;
+import com.finp.moic.shop.adapter.in.request.ShopCategoryRequestInShopRecommandRequest;
+import com.finp.moic.shop.adapter.in.request.ShopDetailRequest;
 import com.finp.moic.shop.adapter.in.request.ShopRecommandRequest;
 import com.finp.moic.shop.application.port.in.ShopUseCase;
+import com.finp.moic.shop.application.port.out.RedisShopPersistencePort;
 import com.finp.moic.shop.application.response.*;
 import com.finp.moic.shop.application.port.out.QueryShopPersistencePort;
 import com.finp.moic.userBookmark.application.port.out.QueryUserBookmarkPersistencePort;
@@ -27,24 +29,25 @@ public class ShopServiceImpl implements ShopUseCase {
     private final QueryGiftcardPersistencePort queryGiftcardPersistencePort;
     private final QueryCardBenefitPersistencePort queryCardBenefitPersistencePort;
     private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
-    private final ShopRedisService shopRedisService;
+    private final RedisShopPersistencePort shopRedisPersistencePort;
     private final CacheRedisService cacheRedisService;
 
 
     @Override
-    public ShopDetailResponse detailShop(String shopName, String shopLocation, String userId) {
+    public ShopDetailResponse detailShop(ShopDetailRequest request, String userId) {
 
         /** Validation, RDB Access **/
-        ShopDetailResponse dto=queryShopPersistencePort
-                .findByNameAndLocation(shopName,shopLocation)
+        ShopDetailResponse dto= queryShopPersistencePort
+                .findShopDetailDTOByNameAndLocation(request.getShopName(), request.getShopLocation())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
-        if(queryUserBookmarkPersistencePort.exist(userId,shopName,shopLocation)){
+        /** 가맹점 조회 시 북마크가 등록되어 있을 경우 체크한다 **/
+        if(queryUserBookmarkPersistencePort.exist(userId, request.getShopName(), request.getShopLocation())){
             dto.setBookmark(true);
         }
 
-        List<GiftResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-        List<BenefitResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
+        List<ShopGiftCardResponseInShopDetailResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId, request.getShopName());
+        List<ShopCardBenefitResponseInShopDetailResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId, request.getShopName());
 
         /** DTO Builder **/
         dto.setBenefits(benefitDTOList);
@@ -54,8 +57,13 @@ public class ShopServiceImpl implements ShopUseCase {
     }
 
     @Override
-    public List<ShopSearchResponse> searchShop(String keyword, double latitude, double longitude, String userId) {
+    public List<ShopSearchResponse> searchShopListByKeyword(String keyword, double latitude, double longitude, String userId) {
 
+        /**
+         *
+         * 아래 캐시 확인 로직 분리 가능
+         *
+         */
         /** Validation, Redis Access **/
         if(!cacheRedisService.existUserBenefitShopKey(userId)){
             List<String> benefitShopNameList= queryCardBenefitPersistencePort.findAllShopNameByUserId(userId);
@@ -66,13 +74,19 @@ public class ShopServiceImpl implements ShopUseCase {
             List<String> giftShopNameList= queryGiftcardPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserGiftShopList(giftShopNameList,userId);
         }
+        /******************************************************************************************/
 
         /** RDB Access **/
-        String shopName=queryShopPersistencePort.findShopNameByKeyword(keyword);
+        String shopName= queryShopPersistencePort.findShopNameByKeyword(keyword);
 
         /** Redis Access **/
-        List<ShopSearchResponse> dto= shopRedisService.searchShopListNearByUser(shopName,latitude,longitude);
+        List<ShopSearchResponse> dto= shopRedisPersistencePort.searchShopListNearByUser(shopName,latitude,longitude);
 
+        /**
+         *
+         * 아래 dto 세팅 로직 분리 가능
+         *
+         */
         /** DTO Builder **/
         for(int idx=0;idx<dto.size();idx++){
             if(cacheRedisService.existUserBenefitShop(dto.get(idx).getShopName(),userId))
@@ -83,13 +97,19 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBookmark(true);
             }
         }
+        /******************************************************************************************/
 
         return dto;
     }
 
     @Override
-    public List<ShopSearchResponse> getShopListByCategory(String category, double latitude, double longitude, String userId) {
+    public List<ShopSearchResponse> searchShopListByCategory(String category, double latitude, double longitude, String userId) {
 
+        /**
+         *
+         * 아래 캐시 확인 로직 분리 가능
+         *
+         */
         /** Validation, Redis Access **/
         if(!cacheRedisService.existUserBenefitShopKey(userId)){
             List<String> benefitShopNameList= queryCardBenefitPersistencePort.findAllShopNameByUserId(userId);
@@ -100,17 +120,23 @@ public class ShopServiceImpl implements ShopUseCase {
             List<String> giftShopNameList= queryGiftcardPersistencePort.findAllShopNameByUserId(userId);
             cacheRedisService.setUserGiftShopList(giftShopNameList,userId);
         }
+        /******************************************************************************************/
 
         /** RDB Access **/
-        List<String> shopNameList=queryShopPersistencePort.findAllShopNameByCategory(category);
+        List<String> shopNameList= queryShopPersistencePort.findShopNameListByCategory(category);
 
         /** DTO Builder **/
-        List<ShopSearchResponse> dto=new ArrayList<>();
+        List<ShopSearchResponse> dto= new ArrayList<>();
         for(String shopName:shopNameList) {
             /** Redis Access **/
-            dto.addAll(shopRedisService.searchShopListNearByUser(shopName,latitude,longitude));
+            dto.addAll(shopRedisPersistencePort.searchShopListNearByUser(shopName,latitude,longitude));
         }
 
+        /**
+         *
+         * 아래 dto 세팅 로직 분리 가능
+         *
+         */
         /** DTO Builder **/
         for(int idx=0;idx<dto.size();idx++){
             if(cacheRedisService.existUserBenefitShop(dto.get(idx).getShopName(),userId))
@@ -121,6 +147,7 @@ public class ShopServiceImpl implements ShopUseCase {
                 dto.get(idx).setBookmark(true);
             }
         }
+        /******************************************************************************************/
 
         return dto;
     }
@@ -131,11 +158,11 @@ public class ShopServiceImpl implements ShopUseCase {
         /** DTO Builder **/
         List<ShopRecommandResponse> dto=new ArrayList<>();
 
-        for(CategoryRequest categoryRequest : shopRecommandRequest.getCategoryList()) {
+        for(ShopCategoryRequestInShopRecommandRequest shopCategoryRequestInShopRecommandRequest : shopRecommandRequest.getCategoryList()) {
 
             /** RDB Access **/
-            List<String> shopNameList = queryShopPersistencePort.findAllShopNameByMainCategoryAndSubCategory
-                    (categoryRequest.getMainCategory(), categoryRequest.getSubCategory());
+            List<String> shopNameList = queryShopPersistencePort.findShopNameListByMainCategoryAndSubCategory
+                    (shopCategoryRequestInShopRecommandRequest.getMainCategory(), shopCategoryRequestInShopRecommandRequest.getSubCategory());
 
             /** Validation **/
             if(shopNameList==null){
@@ -146,7 +173,7 @@ public class ShopServiceImpl implements ShopUseCase {
             String shopName=shopNameList.get(0);
 
             /** Redis Access **/
-            ShopRecommandResponse redisDTO= shopRedisService.searchShopNearByUser//예외처리
+            ShopRecommandResponse redisDTO= shopRedisPersistencePort.findShopNearByUser//예외처리
                     (shopName, shopRecommandRequest.getLatitude(), shopRecommandRequest.getLongitude());
             /** Validation **/
             if(redisDTO==null){
@@ -154,8 +181,8 @@ public class ShopServiceImpl implements ShopUseCase {
             }
 
             /** RDB Access **/
-            List<GiftResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
-            List<BenefitResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
+            List<ShopGiftCardResponseInShopDetailResponse> giftcardDTOList= queryGiftcardPersistencePort.findAllByUserIdAndShopName(userId,shopName);
+            List<ShopCardBenefitResponseInShopDetailResponse> benefitDTOList= queryCardBenefitPersistencePort.findAllByUserIdAndShopName(userId,shopName);
 
             /** DTO Builder **/
             redisDTO.setBenefits(benefitDTOList);

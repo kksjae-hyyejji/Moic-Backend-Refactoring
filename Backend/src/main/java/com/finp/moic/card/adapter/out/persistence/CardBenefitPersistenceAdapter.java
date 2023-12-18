@@ -2,7 +2,7 @@ package com.finp.moic.card.adapter.out.persistence;
 
 import com.finp.moic.card.application.port.out.QueryCardBenefitPersistencePort;
 import com.finp.moic.card.application.response.CardBenefitServiceResponse;
-import com.finp.moic.shop.application.response.BenefitResponse;
+import com.finp.moic.shop.application.response.ShopCardBenefitResponseInShopDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class CardBenefitPersistenceAdapter implements QueryCardBenefitPersistenc
     }
 
     @Override
-    public List<BenefitResponse> findAllByUserIdAndShopName(String userId, String shopName) {
+    public List<ShopCardBenefitResponseInShopDetailResponse> findAllByUserIdAndShopName(String userId, String shopName) {
         return findAllByUserIdAndShopName(userId,shopName);
     }
 

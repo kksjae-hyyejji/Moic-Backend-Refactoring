@@ -37,7 +37,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
          * */
 
         /*** RDB Access ***/
-        Shop shop=queryShopPersistencePort.findEntityByNameAndLocation(userBookmarkRegistRequest.getShopName(), userBookmarkRegistRequest.getShopLocation())
+        Shop shop=queryShopPersistencePort.findShopByNameAndLocation(userBookmarkRegistRequest.getShopName(), userBookmarkRegistRequest.getShopLocation())
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
         User user= commandUserPersistencePort.findById(userId)
                 .orElseThrow(()->new NotFoundException(ExceptionEnum.USER_NOT_FOUND));
@@ -74,7 +74,7 @@ public class UserBookmarkServiceImpl implements UserBookmarkUseCase {
 
         /*** RDB Access ***/
         for(ShopRequest shopDTO: userBookmarkDeleteRequest.getShopList()){
-            Long shopSeq=queryShopPersistencePort.findSeqByNameAndLocation(shopDTO.getShopName(),shopDTO.getShopLocation())
+            Long shopSeq=queryShopPersistencePort.findShopSeqByNameAndLocation(shopDTO.getShopName(),shopDTO.getShopLocation())
                     .orElseThrow(()->new NotFoundException(ExceptionEnum.SHOP_NOT_FOUND));
 
             UserBookmark userBookmark=queryUserBookmarkPersistencePort.findByUserIdAndShopSeq(user.getId(),shopSeq)

@@ -9,18 +9,18 @@ import java.time.LocalDate;
 
 @Getter
 @ToString
-public class GiftResponse {
+public class ShopGiftCardResponseInShopDetailResponse {
 
     private String imageUrl;
     private String dueDate;
 
-    public GiftResponse() {
+    public ShopGiftCardResponseInShopDetailResponse() {
     }
 
     @QueryProjection
     @Builder
 
-    public GiftResponse(String imageUrl, LocalDate dueDate) {
+    public ShopGiftCardResponseInShopDetailResponse(String imageUrl, LocalDate dueDate) {
         this.imageUrl = imageUrl;
         this.dueDate = dueDate.toString();
     }

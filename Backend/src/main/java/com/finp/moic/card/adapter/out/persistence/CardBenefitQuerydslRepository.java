@@ -4,8 +4,8 @@ import com.finp.moic.card.application.response.CardBenefitServiceResponse;
 import com.finp.moic.card.application.response.QCardBenefitServiceResponse;
 import com.finp.moic.card.domain.QCardBenefit;
 import com.finp.moic.card.domain.QUserCard;
-import com.finp.moic.shop.application.response.BenefitResponse;
-import com.finp.moic.shop.application.response.QBenefitResponse;
+import com.finp.moic.shop.application.response.QShopCardBenefitResponseInShopDetailResponse;
+import com.finp.moic.shop.application.response.ShopCardBenefitResponseInShopDetailResponse;
 import com.finp.moic.shop.domain.QShop;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -51,13 +51,13 @@ public class CardBenefitQuerydslRepository {
                 .fetch();
     }
 
-    public List<BenefitResponse> findAllByUserIdAndShopName(String userId, String shopName) {
+    public List<ShopCardBenefitResponseInShopDetailResponse> findAllByUserIdAndShopName(String userId, String shopName) {
         QCardBenefit cardBenefit=QCardBenefit.cardBenefit;
         QUserCard userCard=QUserCard.userCard;
 
         return queryFactory
                 .select(
-                        new QBenefitResponse(
+                        new QShopCardBenefitResponseInShopDetailResponse(
                                 cardBenefit.card.name.as("cardName"),
                                 cardBenefit.card.cardImage.as("cardImage"),
                                 cardBenefit.content,

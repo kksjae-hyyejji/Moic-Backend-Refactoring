@@ -4,7 +4,7 @@ import com.finp.moic.giftCard.application.port.out.CommandGiftcardPersistencePor
 import com.finp.moic.giftCard.application.port.out.QueryGiftcardPersistencePort;
 import com.finp.moic.giftCard.application.response.GiftcardListServiceResponse;
 import com.finp.moic.giftCard.domain.Giftcard;
-import com.finp.moic.shop.application.response.GiftResponse;
+import com.finp.moic.shop.application.response.ShopGiftCardResponseInShopDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +44,7 @@ public class GiftcardPersistenceAdapter implements CommandGiftcardPersistencePor
     }
 
     @Override
-    public List<GiftResponse> findAllByUserIdAndShopName(String userId, String shopName) {
+    public List<ShopGiftCardResponseInShopDetailResponse> findAllByUserIdAndShopName(String userId, String shopName) {
         return querydslRepository.findAllByUserIdAndShopName(userId,shopName);
     }
 }
