@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/RegistGiftcardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/finp/moic/giftCard/application/RegistGiftcardService.java" afterDir="false" />
-    </list>
+    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,7 +79,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/giftcard",
+    "git-widget-placeholder": "develop",
     "last_directory_selection": "/Users/kksjae/Desktop/final_project/Moic-Backend-Refactoring/Backend/src/main/java/com/finp/moic/giftCard/model",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -101,7 +99,7 @@
       <recent name="com.finp.moic.giftCard.application.request" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.MoicBackendApplication">
+  <component name="RunManager" selected="Gradle.Backend [build]">
     <configuration name="Backend [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -161,9 +159,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.MoicBackendApplication" />
         <item itemvalue="Gradle.Backend [build]" />
         <item itemvalue="Gradle.Backend [clean]" />
+        <item itemvalue="Spring Boot.MoicBackendApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -181,7 +179,7 @@
       <workItem from="1702528226916" duration="11752000" />
       <workItem from="1702616676441" duration="7492000" />
       <workItem from="1702802333218" duration="6661000" />
-      <workItem from="1702876320608" duration="4132000" />
+      <workItem from="1702876320608" duration="5013000" />
     </task>
     <servers />
   </component>
