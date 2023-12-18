@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="" />
+    <list default="true" id="09c385ea-b504-4116-b6af-6884f8b36f23" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +81,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "feature/userbookmark",
     "last_directory_selection": "/Users/kksjae/Desktop/final_project/Moic-Backend-Refactoring/Backend/src/main/java/com/finp/moic/giftCard/model",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -179,7 +181,7 @@
       <workItem from="1702528226916" duration="11752000" />
       <workItem from="1702616676441" duration="7492000" />
       <workItem from="1702802333218" duration="6661000" />
-      <workItem from="1702876320608" duration="5013000" />
+      <workItem from="1702876320608" duration="6606000" />
     </task>
     <servers />
   </component>
