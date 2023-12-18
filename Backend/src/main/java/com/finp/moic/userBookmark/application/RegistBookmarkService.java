@@ -22,7 +22,6 @@ public class RegistBookmarkService implements RegistBookmarkUseCase {
     private final QueryShopPersistencePort queryShopPersistencePort;
     private final QueryUserBookmarkPersistencePort queryUserBookmarkPersistencePort;
     private final QueryUserPersistencePort queryUserPersistencePort;
-    private final CommandUserPersistencePort commandUserPersistencePort;
     private final CommandUserBookmarkPersistencePort commandUserBookmarkPersistencePort;
     @Override
     public void registBookmark(UserBookmarkRegistRequest userBookmarkRegistRequest, String userId) {
