@@ -27,7 +27,7 @@ public class CardBenefitPersistenceAdapter implements QueryCardBenefitPersistenc
 
     @Override
     public List<ShopCardBenefitResponseInShopDetailResponse> findAllByUserIdAndShopName(String userId, String shopName) {
-        return findAllByUserIdAndShopName(userId,shopName);
+        return querydslRepository.findAllByUserIdAndShopName(userId,shopName);
     }
 
     @Override
