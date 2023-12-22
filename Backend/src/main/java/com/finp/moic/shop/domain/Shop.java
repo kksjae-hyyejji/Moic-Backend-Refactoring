@@ -12,6 +12,7 @@ import java.util.List;
 @Entity(name="shop")
 @Table(indexes = {
         @Index(name = "shop_delete", columnList = "deleted_at,is_delete"),
+        @Index(name = "shop_category", columnList = "category"),
 })
 @Getter
 @Builder
