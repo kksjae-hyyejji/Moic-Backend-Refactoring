@@ -72,37 +72,35 @@
 
 - 유의미한 데이터 크기를 가진 column → 테이블의 행 수가 약 100만개 이상 되는 경우
     - shop의 Name, category
-- 테이블의 크기가 계속해서 커짐이 보장되는 곳
-    - user 테이블의 user_id
-- Cardinality가 높은 경우
-    - 위의 정보들은 모두 유일성을 보장하는 column입니다.
+- 쿼리가 가져오는 결과가 매우 느린 경우
+- 목적 : range (ref, const, range) 수준으로 개선한다.
 
 ## 개선 결과
 
 ### 백만 개의 데이터에 대해 인덱스 유무에 따른 시간 측정
 
+1. 시간이 많이 걸리는 쿼리 개선 -> category에 인덱스 추가
 - 인덱스 적용 안할 때 `약 3초` 소요되었던 것이 인덱스 적용 이후 `0.1~0.2초`로 단축되었습니다.
-- 실행 계획의 Extra를 확인해볼 때, 불필요한 실행 계획이 감소되었음을 확인했습니다.
+- 실행 계획의 type이 ALL -> ref로 변경되었고 rows를 통해 변화를 확인할 수 있습니다.
 
 `인덱스 적용 전의 실행 계획`
 <img width="1128" alt="실행전" src="https://github.com/kksjae-hyyejji/Moic-Backend-Refactoring/assets/87571953/bf036bee-765f-4fab-a2fa-77b50b7b12fd">
 `인덱스 적용 후의 실행 계획`
 <img width="1122" alt="실행후" src="https://github.com/kksjae-hyyejji/Moic-Backend-Refactoring/assets/87571953/15dd11d7-ead5-4c37-9501-9a45e3cfc239">
 
+
+
+2. 다중 컬럼 인덱스를 선택하지 않고 단순 인덱스 사용 
 ```sql
 explain select category, name, location, address
     from shop
     where name = "스타벅스" and location = "현대목동점";
-
-/*
-1. shopName은 대략 100만개 -> 인덱스 후보 // 같은 shopName을 가지는 경우가 아무리 많아도 10만건을 넘지 않아서 해당 인덱스 채택
-2. location 또한 100만개 -> 인덱스 후보 // 직접적으로 쓸 일이 없으므로 제외.
-3. 사용하는 쿼리에서 상점의 이름과 위치가 같이 이용되어 화면에 마크표시를 해야된다.
-
---> 각각의 인덱스를 총 3개를 만들어야된다. ( 300만개 )
---> 두 컬럼에 대해 인덱스를 1개씩만 만들어논다. ( 200만개 )
- */
 ```
+- 위의 쿼리는 shop과 location으로 적합한 shop의 정보를 반환하는 쿼리입니다.
+- 해당 쿼리의 index는 shop의 name에만 걸어두어 index Condition을 유도하였습니다.
+  - shop의 name은 카디널리티를 0.9로 가지는 컬럼입니다. name을 통해 필터링된 location의 개수는 다중 컬럼 인덱스를 적용할 만큼 많은 행을 가지고 있지 않습니다.
+  - 아래의 적용 후의 실행 계획을 보면, 1차 필터링을 거치고 나서 464개의 행을 검사합니다. 이 정도로 충분합니다.
+
 
 `인덱스 적용 전의 실행 계획`
 <img width="1099" alt="Untitled" src="https://github.com/kksjae-hyyejji/Moic-Backend-Refactoring/assets/87571953/a72606a4-7dd1-48bf-9b4e-c501db63251f">
